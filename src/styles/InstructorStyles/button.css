@@ -1,0 +1,11 @@
+.button{
+  width: calc(100%);
+  background-color: green;
+  margin-bottom: 1rem;
+}
+
+.button--secondaryBtn{
+  background-color: darkblue;
+  height: 2.2rem;
+  width: calc(100%);
+}

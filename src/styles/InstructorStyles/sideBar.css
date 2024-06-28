@@ -1,0 +1,43 @@
+@import "./button.css";
+
+.aside{
+  background-color: aqua;
+  width: calc(25%);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sectionCont__ImageCont{
+  background-color: gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sectionCont__linksBtnContainer{
+  display: flex;
+  flex-direction: column;
+  width: calc(100%);
+}
+
+.aside__sectionCont{
+  display: flex;
+  flex-direction: column;
+  background-color: aquamarine;
+  width: calc(100%);
+  margin-top: 3rem;
+}
+
+.aside__sectionCont--SpaceBetween{
+  height: calc(100%);
+  background-color: brown;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.ImageCont__Logo{
+  margin: auto;
+}
+
