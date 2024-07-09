@@ -4,14 +4,19 @@
 .Table{
     width: calc(90%);
     margin: auto 0;
+    border-collapse: collapse;
 }
 
 .Table__TableHead{
     background-color: var(--colorSecundario); 
     color: var(--colorDenario);
-    border: none;
 }
 
 .TableHeadRow__RowItem{
     padding: 0.5rem 1rem;
 }
+
+.TableBodyRow__RowItem{
+    padding: 1px;
+}
+

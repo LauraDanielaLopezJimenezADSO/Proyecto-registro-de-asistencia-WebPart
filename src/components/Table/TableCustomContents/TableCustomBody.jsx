@@ -1,6 +1,7 @@
 import React from "react";
 import PrimaryButton from "../../buttons/primaryButton";
 import { downloadArchivo } from "../../../context/API/API_TableContent.js";
+import "../../../styles/ComponentStyles/Table.css"
 
 export default function TableCustomBody({ rows }) {
     const handleDownload = async (id) => {
@@ -12,15 +13,15 @@ export default function TableCustomBody({ rows }) {
     };
 
     return (
-        <tbody>
+        <tbody className="Table__TableBody">
             {rows.map((row, index) => (
-                <tr key={index}>
-                    <th>{row.Ambiente}</th>
-                    <th>{row.Competencia}</th>
-                    <th>{row.Instructor}</th>
-                    <th>{row.Fecha}</th>
-                    <th>{row.Ficha}</th>
-                    <th>
+                <tr key={index} className="TableBody__TableBodyRow">
+                    <th className="TableBodyRow__RowItem">{row.Ambiente}</th>
+                    <th className="TableBodyRow__RowItem">{row.Competencia}</th>
+                    <th className="TableBodyRow__RowItem">{row.Instructor}</th>
+                    <th className="TableBodyRow__RowItem">{row.Fecha}</th>
+                    <th className="TableBodyRow__RowItem">{row.Ficha}</th>
+                    <th className="TableBodyRow__RowItem">
                         <PrimaryButton texto="abrir" onClick={() => handleDownload(row.IDArchivo)} />
                     </th>
                 </tr>

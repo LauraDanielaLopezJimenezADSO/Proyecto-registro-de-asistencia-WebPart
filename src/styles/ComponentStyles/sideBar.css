@@ -1,7 +1,7 @@
-@import "./button.css";
+
 
 .aside{
-  background-color: aqua;
+  background-color: var(--colorTerciario);
   width: calc(25%);
   height: 100vh;
   display: flex;
@@ -10,7 +10,6 @@
 }
 
 .sectionCont__ImageCont{
-  background-color: gray;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,14 +23,12 @@
 .aside__sectionCont{
   display: flex;
   flex-direction: column;
-  background-color: aquamarine;
   width: calc(100%);
   margin-top: 3rem;
 }
 
 .aside__sectionCont--SpaceBetween{
   height: calc(100%);
-  background-color: brown;
   display: flex;
   justify-content: space-between;
 }

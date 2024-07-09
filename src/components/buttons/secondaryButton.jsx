@@ -1,6 +1,6 @@
 import React from "react";
-import "../../styles/ComponentStyles/button.css";
+import "../../styles/ComponentStyles/Buttons/SecondaryButton.css";
 
-export default function SecondaryButton({ texto }) {
-  return <button className="button button--secondaryBtn">{texto}</button>;
+export default function SecondaryButton({ texto, clase }) {
+  return <a className={ clase }>{texto}</a>;
 }

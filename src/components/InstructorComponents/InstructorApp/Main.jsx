@@ -4,7 +4,8 @@ import PrimaryTable from "../../Table/PrimaryTable.jsx";
 import { fetchAsistencias } from "../../../context/API/API_TableContent.js";
 import "../../../styles/InstructorStyles/InstructorHomePageStyle.css"
 
-export default function Main() {
+export default function Main({ UserFirstName }) {
+
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -12,7 +13,7 @@ export default function Main() {
     useEffect(() => {
         async function getData() {
             try {
-                const data = await fetchAsistencias('Jeisson');
+                const data = await fetchAsistencias(UserFirstName);
                 setRows(data);
                 setLoading(false);
             } catch (error) {

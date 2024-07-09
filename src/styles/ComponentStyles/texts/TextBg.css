@@ -1,0 +1,13 @@
+.TextBg{
+    padding: 0.3rem;
+    width: calc(80%);
+    margin: 0 auto;
+    color: var(--colorDenario);
+}
+
+.TextBg--YllVariant{
+    background-color: var(--colorCuaternario);
+    color: var(--colorNonario);
+    border-radius: 4px;
+    text-align: center;
+}

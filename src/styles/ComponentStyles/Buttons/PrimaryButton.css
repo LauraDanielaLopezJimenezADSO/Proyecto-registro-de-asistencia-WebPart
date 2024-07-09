@@ -1,0 +1,37 @@
+@import url(../../globalConfig.css);
+
+.button{
+  width: calc(100%);
+  background: var(--colorPrimario);
+  border: none;
+  color: var(--colorDenario);
+  padding: 16px 20px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: #fff;
+}
+.button::after {
+  content: "";
+  background: var(--colorQuinario); 
+  position: absolute;
+  z-index: -1;
+  padding: 16px 20px;
+  display: block;
+  left: -20%;
+  right: -20%;
+  top: 0;
+  bottom: 0;
+  transform: skewX(0) scale(0, 1);
+  transition: all 0.3s ease-in;
+  cursor: pointer;
+}
+.button:hover::after {
+  transition: all 0.3s ease-out;
+  transform: skewX(0) scale(1, 1);
+}
