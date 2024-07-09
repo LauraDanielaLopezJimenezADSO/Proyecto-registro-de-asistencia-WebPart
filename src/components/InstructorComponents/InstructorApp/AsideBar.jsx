@@ -1,10 +1,14 @@
 import React from "react";
-import "../../../styles/InstructorStyles/sideBar.css"
+import "../../../styles/ComponentStyles/sideBar.css"
 import PrimaryButton from "../../buttons/primaryButton.jsx"
 import SecondaryButton from "../../buttons/secondaryButton.jsx";
+import TextBg from "../../Text/TextBg.jsx";
+import UserCredentials from "../../../context/userSession.js" ;
 
 
 export default function AsideBar(){
+  const UserInstance = UserCredentials.getInstance();
+
   return (
     <aside className="aside">
       <section className="aside__sectionCont">
@@ -15,7 +19,7 @@ export default function AsideBar(){
             className="ImageCont__Logo"
           />
         </figure>
-        <h3>XXXXXXXXXXXXXXXX</h3>
+        <TextBg texto={UserInstance.getUserFullName()}></TextBg>
       </section>
       <section className="aside__sectionCont aside__sectionCont--SpaceBetween">
         <div className="sectionCont__linksBtnContainer">

@@ -1,5 +1,20 @@
+:root{
+  --colorPrimario:#39A900; /*verdePrincipal*/
+  --colorSecundario:  #002240; /*AzulOSCURO*/
+  --colorTerciario: #668493; /*AzulClaro*/
+  --colorCuaternario: #FFD04E; /*AmarilloNaranja*/
+  --colorQuinario: #008550; /*verdeOscuro*/
+  --colorSenario: #87CA66; /*verdeClaro*/
+  --colorSeptenario: #FF0000; /*rojo*/
+  --colorOctonario: #FBFBEC; /*amarilloClaro*/
+  --colorNonario: #000000; /*negro*/
+  --colorDenario: #FFFFFF; /*Blanco*/
+}
+
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Work Sans", sans-serif
 }
+

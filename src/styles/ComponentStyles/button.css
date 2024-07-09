@@ -2,6 +2,14 @@
   width: calc(100%);
   background-color: green;
   margin-bottom: 1rem;
+  width: 180px;
+  border-radius: 8px;
+  border: none;
+  height: 44px;
+  color: white;
+  font-size: 16px;
+  outline: none;
+
 }
 
 .button--secondaryBtn{

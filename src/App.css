@@ -1,8 +1,15 @@
+@import url(../src/styles/globalConfig.css);
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+.section__logo{
+  height: 100vh;
+  width: calc(25%);
+  background: var(--colorSecundario);
 }
 
 .logo {
@@ -40,3 +47,9 @@
 .read-the-docs {
   color: #888;
 }
+
+.container{
+  display: flex;
+  flex-direction: column;
+}
+

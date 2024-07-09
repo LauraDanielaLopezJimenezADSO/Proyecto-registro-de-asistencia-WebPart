@@ -1,0 +1,17 @@
+@import url(../globalConfig.css);
+
+
+.Table{
+    width: calc(90%);
+    margin: auto 0;
+}
+
+.Table__TableHead{
+    background-color: var(--colorSecundario); 
+    color: var(--colorDenario);
+    border: none;
+}
+
+.TableHeadRow__RowItem{
+    padding: 0.5rem 1rem;
+}

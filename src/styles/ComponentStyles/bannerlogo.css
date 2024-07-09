@@ -1,0 +1,7 @@
+.banner__logo{
+    width: calc(25%);
+    color: var(--primaryColor);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

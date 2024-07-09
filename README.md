@@ -49,3 +49,23 @@ VITE v5.3.1
 - press h + enter to show help
 
 
+# Compilación de la aplicación
+Puedes ejecutar el siguiente comando para compilar la aplicación en su totalidad.
+
+```
+npm run build
+```
+
+# Instalación de GitPages
+se ejecuta el comando para instalar gh-pages
+
+```
+npm install gh-pages --save-dev
+```
+
+# Comando para compilar la aplicacióm en GitHub pages.
+El siguinete comando compila tu aplicación y la envia a una rama llamada gh-pages, que GitHub usa para vincularse con las páginas de GitHub.
+
+```
+npm run deploy
+```
