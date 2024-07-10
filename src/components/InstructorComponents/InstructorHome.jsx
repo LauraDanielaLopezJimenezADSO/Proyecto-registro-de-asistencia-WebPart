@@ -1,9 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./InstructorApp/InstructorApp.jsx"
+import AppHome from "./InstructorApp/InstructorAppHome.jsx"
 
 ReactDOM.createRoot(document.querySelector('#root')).render(
   <React.StrictMode>
-    <App />
+    <AppHome />
   </React.StrictMode>
 )
+

@@ -1,3 +1,4 @@
+
 :root{
   --colorPrimario:#39A900; /*verdePrincipal*/
   --colorSecundario:  #002240; /*AzulOSCURO*/
@@ -9,12 +10,14 @@
   --colorOctonario: #FBFBEC; /*amarilloClaro*/
   --colorNonario: #000000; /*negro*/
   --colorDenario: #FFFFFF; /*Blanco*/
+  --subTitulo: 32px;
+  --letraEstandar: 16px;
 }
 
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Work Sans", sans-serif
+  font-family: "Work Sans", sans-serif;
 }
 

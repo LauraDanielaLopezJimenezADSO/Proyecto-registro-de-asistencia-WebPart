@@ -35,6 +35,7 @@ export async function downloadArchivo(id) {
         a.download = `asistencia_${id}.xlsx`;
         document.body.appendChild(a);
         a.click();
+        document.body.removeChild(a);
         window.URL.revokeObjectURL(url);
     } catch (error) {
         console.error('Error downloading file:', error);

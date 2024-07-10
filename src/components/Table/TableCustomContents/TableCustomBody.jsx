@@ -22,7 +22,7 @@ export default function TableCustomBody({ rows }) {
                     <th className="TableBodyRow__RowItem">{row.Fecha}</th>
                     <th className="TableBodyRow__RowItem">{row.Ficha}</th>
                     <th className="TableBodyRow__RowItem">
-                        <PrimaryButton texto="abrir" onClick={() => handleDownload(row.IDArchivo)} />
+                        <PrimaryButton texto="abrir" clase="PrimaryButton" onClick={() => handleDownload(row.IDArchivo)} />
                     </th>
                 </tr>
             ))}
