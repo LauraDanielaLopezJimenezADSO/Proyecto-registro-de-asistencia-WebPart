@@ -24,7 +24,7 @@ function App() {
     <div className="contenedor">
       <section className='section__figure'>
         <figure className='figure'>
-          <img className='imgLogo' src="src/util/icons/LogoSena.png" alt="Logo sena" />
+          <img className='imgLogo' src="./public/icons/LogoSena.png" alt="Logo sena" />
         </figure>
       </section>
 
@@ -82,7 +82,7 @@ function App() {
           </div>
           <div>
         
-        <a href="src/pages/InstructorPages/InstructorHomeScreen.html" target="_blank">
+        <a href="./src/pages/InstructorPages/InstructorHomeScreen.html" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
         <a href="https://react.dev" target="_blank">
