@@ -24,13 +24,11 @@ function App() {
     <div className="contenedor">
       <section className='section__figure'>
         <figure className='figure'>
-          <img className='imgLogo' src="../src/util/icons/LogoSena.png" alt="Logo sena" />
+          <img className='imgLogo' src="src/util/icons/LogoSena.png" alt="Logo sena" />
         </figure>
       </section>
 
       <section className="sectionLogin">
-        
-        
         <h2 className='subtituloLogin'>Ingreso al Control de Asistencias</h2>
         <form className='formularioLogin'>
           

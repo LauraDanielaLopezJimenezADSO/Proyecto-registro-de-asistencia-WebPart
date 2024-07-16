@@ -4,4 +4,13 @@
     height: 44px;
     width: 15vw;
     padding: 0px 10px;
+    transition: border-color 0.3s ease;
+}
+
+.input:focus{
+    border: var(--colorQuinario);
+}
+
+.input:hover{
+    border: solid 1px var(--colorSenario);
 }

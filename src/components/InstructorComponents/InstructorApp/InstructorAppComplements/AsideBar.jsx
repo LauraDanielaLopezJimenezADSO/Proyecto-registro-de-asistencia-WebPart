@@ -35,6 +35,7 @@ export default function AsideBar({ UserName, Rol, ActiveButton }) {
           <SecondaryButton 
             clase={`SecondaryButton ${ActiveButton === 'USUARIO' ? 'SecondaryButton--SecondaryButtonActive' : ''}`} 
             texto="USUARIO"
+            link={"../../pages/InstructorPages/InstructorUsuario.html"}
           ></SecondaryButton>
           <SecondaryButton 
             clase={`SecondaryButton ${ActiveButton === 'CONFIGURACIÓN' ? 'SecondaryButton--SecondaryButtonActive' : ''}`} 
