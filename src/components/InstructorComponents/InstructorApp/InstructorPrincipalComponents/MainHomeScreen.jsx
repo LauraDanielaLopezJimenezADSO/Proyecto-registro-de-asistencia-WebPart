@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Title from "../../../Text/Title.jsx";
 import SubTitle from "../../../Text/SubTitle.jsx";
 import PrimaryTable from "../../../Table/PrimaryTable.jsx";
-import { fetchAsistencias } from "../../../../context/API/API_TableContent.js";
+import { fetchAsistencias } from "../../../../context/API/API_ListarAsitencias.js";
 import "../../../../styles/InstructorStyles/InstructorHomePageStyle.css";
 import Loading from "../../../LoadingCom.jsx";
 

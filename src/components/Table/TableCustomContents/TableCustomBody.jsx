@@ -1,6 +1,7 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import PrimaryButton from "../../buttons/primaryButton";
-import { downloadArchivo } from "../../../context/API/API_TableContent.js";
+import { downloadArchivo } from "../../../context/API/API_ListarAsitencias.js";
 import "../../../styles/ComponentStyles/Table.css"
 
 export default function TableCustomBody({ rows }) {

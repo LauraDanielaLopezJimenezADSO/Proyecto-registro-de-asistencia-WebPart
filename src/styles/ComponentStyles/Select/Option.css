@@ -1,0 +1,5 @@
+#Option{
+    background: var(--colorPrimario);
+    color: var(--colorDenario);
+    padding: 0.5rem;
+}

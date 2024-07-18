@@ -1,0 +1,13 @@
+#Select{
+    background: var(--colorPrimario);
+    color: var(--colorDenario);
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: none;
+    margin-left: 0.1rem;
+    transition: 1s;
+}
+
+#Select:disabled{
+    background-color: var(--colorSecundario);
+}

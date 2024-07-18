@@ -23,3 +23,15 @@
     align-items: center;
     justify-content: center;
 }
+
+.main__ContentContainer{
+    width: calc(100%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: 5rem calc(10%) 0 0;
+}
+
+.ContentContainer__SelectContainer{
+    margin: 1rem 0;
+}

@@ -1,7 +1,21 @@
 
-export async function fetchAsistencias(instructor) {
+
+export async function fetchAsistencias(instructor, ambiente, IDprograma, ficha) {
     try {
-        const response = await fetch(`http://localhost:8080/Archives/ListarAsistencias?instructor=${instructor}`);
+        let StrUrlExt = '';
+        if (ambiente != null){
+            StrUrlExt += '&ambiente' + ambiente;
+        }
+
+        if (IDprograma != null){
+            StrUrlExt += '&idProgramaFormacion=' + IDprograma;
+        }
+
+        if (ficha != null){
+            StrUrlExt += '&ficha=' + ficha;
+        }
+
+        const response = await fetch(`http://localhost:8080/Archives/ListarAsistencias?instructor=${instructor}` + StrUrlExt)
         if (!response.ok) {
             throw new Error('Error fetching data');
         }
@@ -16,7 +30,7 @@ export async function fetchAsistencias(instructor) {
             IDArchivo: item.IDArchivo
         }));
     } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error en el fetch:', error);
         throw error;
     }
 }
