@@ -1,17 +1,23 @@
 /* CONTAINER */
 .labelContainer{
     font-size: var(--letraEstandar);
+    display: flex;
+    justify-content: center;
+    width: 60vw;
 }
 .cont{
-    padding: 10px;
+    padding: 5px;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
 }
 
 /* LABEL */
 .cont__labelDatos{
+    width: 250px;
     color: var(--colorSecundario);
+    
 }
 
 /* button */
