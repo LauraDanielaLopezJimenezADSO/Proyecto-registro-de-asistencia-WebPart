@@ -69,3 +69,10 @@ El siguinete comando compila tu aplicación y la envia a una rama llamada gh-pag
 ```
 npm run deploy
 ```
+
+# Comando para instalar React Router
+El sigiente comando instala Recat Router en su version 6 para trabajo en web
+
+```
+npm install react-router-dom@6
+```

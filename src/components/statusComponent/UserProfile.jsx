@@ -48,17 +48,17 @@ const UserProfile = ({ user, pass }) => {
     getData();
   }, [user, pass]);
 
-  if (loading) {
-    return <div id="loading">
-                <Loading />
-            </div>; //componente Loading
-  }
+  // if (loading) {
+  //   return <div id="loading">
+  //               <Loading />
+  //           </div>; //componente Loading
+  // }
 
-  if (error) {
-    return <div id="error">
-                <h1>Error: {error}</h1>
-            </div>
-  }
+  // if (error) {
+  //   return <div id="error">
+  //               <h1>Error: {error}</h1>
+  //           </div>
+  // }
 
   return (
     <section className="section__datos">
