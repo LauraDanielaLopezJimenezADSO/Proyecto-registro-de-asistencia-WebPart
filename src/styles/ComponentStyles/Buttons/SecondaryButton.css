@@ -1,5 +1,7 @@
 
 .SecondaryButton {
+    background-color: var(--colorTerciario);
+    border: none;
     color: #FFF;
     border-radius: 0px;
     padding: 18px 36px;
@@ -10,7 +12,7 @@
 }
 
 .SecondaryButton:hover {
-    box-shadow: inset 400px 0 0 0 var(--colorSecundario);
+    box-shadow: inset 600px 0 0 0 var(--colorSecundario);
 }
 
 .SecondaryButton--SecondaryButtonActive{

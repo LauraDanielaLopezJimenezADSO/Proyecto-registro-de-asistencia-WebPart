@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-// import AppHome from "./InstructorApp/InstructorAppHome.jsx"
-import AppUser from "./InstructorApp/InstructorAppUser.jsx";
+import AppHome from "./AprendizApp/AprendizAppHome.jsx"
+import {Router} from "react-router-dom";
 
 ReactDOM.createRoot(document.querySelector('#root')).render(
   <React.StrictMode>
-    <AppUser />
+      <AppHome />
   </React.StrictMode>
-
 )
+

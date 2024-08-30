@@ -1,8 +1,8 @@
 import React, { useState} from "react";
-import AsideBar from "./InstructorAppComplements/AsideBar.jsx";
-import MainHomeScreen from "./InstructorPrincipalComponents/MainHomeScreen.jsx";
-import MainSearchScreen from "./InstructorPrincipalComponents/MainSearchScreen.jsx";
-import MainUserScreen from "./InstructorPrincipalComponents/MainUserScreen.jsx";
+import AsideBar from "./AprendizAppComplements/AsideBar.jsx";
+import MainHomeScreen from "./AprendizPrincipalComponents/MainHomeScreen.jsx";
+import MainSearchScreen from "./AprendizPrincipalComponents/MainSearchScreen.jsx";
+import MainUserScreen from "./AprendizPrincipalComponents/MainUserScreen.jsx";
 import UserCredentials from "../../../context/API/APISessionManager/userSession.js";
 import '../../../styles/InstructorStyles/InstructorHomePageStyle.css';
 

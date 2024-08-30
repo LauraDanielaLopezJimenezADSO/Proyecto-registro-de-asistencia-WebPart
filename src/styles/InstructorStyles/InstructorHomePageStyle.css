@@ -1,7 +1,13 @@
 #body{
     display: flex;
 }
+div#app-container{
+    display: flex;
+}
+div#view-container > main {
+    margin-top: 5%;
 
+}
 
 #main{
     width: calc(100%);

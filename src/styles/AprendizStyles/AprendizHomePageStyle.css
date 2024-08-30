@@ -1,0 +1,66 @@
+#body{
+    display: flex;
+}
+div#app-container{
+    display: flex;
+}
+div#view-container > main {
+    width: 74vw;
+    margin-top: 52%;
+}
+
+.main__gridContainer {
+    display: grid;
+    grid-template-columns: 70% 30%; /* Define el tamaño de las columnas */
+    gap: 10px; /* Espacio entre las columnas, opcional */
+    width: 100%; /* Asegúrate de que la grid ocupe todo el ancho disponible */
+    height: 70vh; /* Opcional: para que la grid ocupe toda la altura de la ventana */
+}
+
+.gridContainer__grid-item {
+    padding: 20px; /* Espacio interno, opcional */
+    border: 1px solid black; /* Borde para visualización, opcional */
+}
+
+.main-content {
+    background-color: aqua;
+}
+
+.main-content__FirstSection{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 5px;
+}
+
+.FirstSection__Card{
+    background-color: #39A900;
+}
+
+.Card__cardContentContainer{
+    margin: 1rem;
+}
+
+.sidebar {
+    background-color: red;
+}
+
+#main{
+    width: calc(100%);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#loading{
+    width: calc(100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#error{
+    width: calc(100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
