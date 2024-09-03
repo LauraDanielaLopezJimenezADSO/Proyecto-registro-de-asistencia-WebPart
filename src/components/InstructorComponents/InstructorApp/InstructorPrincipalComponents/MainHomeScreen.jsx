@@ -15,6 +15,7 @@ export default function MainHomeScreen({ UserFirstName }) {
         async function getData() {
             try {
                 const data = await fetchAsistencias(UserFirstName);
+                console.log(data)
                 setRows(data.slice(-5)); // Últimos 5 registros
             } catch (error) {
                 setError(error);

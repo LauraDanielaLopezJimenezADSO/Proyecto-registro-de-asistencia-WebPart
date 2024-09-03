@@ -1,59 +1,46 @@
 import React, { useState} from "react";
-import AsideBar from "./InstructorAppComplements/AsideBar.jsx";
+import AsideBar from "../../AsideBar.jsx";
 import MainHomeScreen from "./InstructorPrincipalComponents/MainHomeScreen.jsx";
 import MainSearchScreen from "./InstructorPrincipalComponents/MainSearchScreen.jsx";
 import MainUserScreen from "./InstructorPrincipalComponents/MainUserScreen.jsx";
-import UserCredentials from "../../../context/API/APISessionManager/userSession.js";
+import {useAuth} from "../../../context/API/APISessionManager/userSession.jsx";
 import '../../../styles/InstructorStyles/InstructorHomePageStyle.css';
 
-export default function InstructorHome() {
-  // Estado para controlar la vista actual
-  const [currentView, setCurrentView] = useState('home');
-  const userInstance = UserCredentials.getInstance();
+export default function InstructorAppHome({ onLogout }) {
+    const [currentView, setCurrentView] = useState('home');
+    const { user } = useAuth();
 
-  // Establece las credenciales del usuario al montar el componente
-    userInstance.setCredentials({
-      id: 2,
-      documento: 1097096255,
-      nombres: 'Jeisson',
-      apellidos: 'Leon'
-    });
+    const showHome = () => setCurrentView('home');
+    const showSearch = () => setCurrentView('search');
+    const showUser = () => setCurrentView('user');
 
+    const renderView = () => {
+        switch (currentView) {
+            case 'home':
+                return <MainHomeScreen UserFirstName={user.nombres} UserDoc={user.documento} />;
+            case 'search':
+                return <MainSearchScreen UserFirstName={user.nombres} />;
+            case 'user':
+                return <MainUserScreen />;
+            default:
+                return <MainHomeScreen UserFirstName={user.nombres} UserDoc={user.documento} />;
+        }
+    };
 
-  // Funciones para cambiar la vista
-  const showHome = () => setCurrentView('home');
-  const showSearch = () => setCurrentView('search');
-  const showUser = () => setCurrentView('user');
-
-  // Renderizar el componente basado en la vista actual
-  const renderView = () => {
-    switch (currentView) {
-      case 'home':
-        return <MainHomeScreen UserFirstName={userInstance.getUserFirstName()} />;
-      case 'search':
-        return <MainSearchScreen UserFirstName={userInstance.getUserFirstName()} />;
-      case 'user':
-        return <MainUserScreen />;
-      default:
-        return <MainHomeScreen />;
-    }
-  };
-
-  return (
-      <div id="app-container">
-        {/* AsideBar recibe funciones para cambiar la vista */}
-        <AsideBar
-            showHome={showHome}
-            showSearch={showSearch}
-            showUser={showUser}
-            ActiveButton={currentView.toUpperCase()}
-            UserName={userInstance.getUserFullName()}
-            Rol="Instructor"
-        />
-        {/* Renderizar la vista seleccionada */}
-        <div id="view-container">
-          {renderView()}
+    return (
+        <div id="app-container">
+            <AsideBar
+                showHome={showHome}
+                showSearch={showSearch}
+                showUser={showUser}
+                ActiveButton={currentView.toUpperCase()}
+                UserName={`${user.nombres} ${user.apellidos}`}
+                Rol="Instructor"
+                onLogout={onLogout} // Pasa la función de logout al AsideBar
+            />
+            <div id="view-container">
+                {renderView()}
+            </div>
         </div>
-      </div>
-  );
+    );
 }

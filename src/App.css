@@ -5,17 +5,22 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background: linear-gradient(to right, var(--colorTerciario) 50%, var(--colorDenario) 50%);
+  background-color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+
+}
+
+#root{
+  width: 100%;
   height: 100vh;
 }
 
 .LoginSection {
   width: 100%;
-  max-width: 1200px;
-  height: auto;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,9 +29,8 @@ body {
 .contenedor {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  width: 80vw; /* Ajusta según sea necesario */
-  max-width: 800px;
-  height: 70vh;
+  width: 70vw;
+  height: 80vh;
   box-shadow: 1px 1px 100px black;
   overflow: hidden; /* Para evitar desbordamiento */
 }
@@ -43,8 +47,7 @@ body {
 }
 
 .imgLogo {
-  width: 150px;
-  height: 150px;
+  width: 15rem;
 }
 
 .FormSection {

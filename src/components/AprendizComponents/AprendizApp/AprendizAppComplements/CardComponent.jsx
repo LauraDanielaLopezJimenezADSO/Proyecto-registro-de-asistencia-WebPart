@@ -1,5 +1,5 @@
 import React from "react";
-import "../../../../styles/AprendizStyles/AprendizHomePageStyle.css";
+
 
 export default function CardComponent({ classNameParent, classNameContentContainer, Title, FirstTxt, SecordTxt, ThirdTxt }) {
     return (

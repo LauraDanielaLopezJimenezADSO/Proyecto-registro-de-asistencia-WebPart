@@ -9,10 +9,13 @@ export default function PrimaryTable({ rows }) {
         return <div>No hay datos disponibles para mostrar.</div>;
     }
 
+    // Verificar las claves de las filas para asegurarte de que coinciden con las cabeceras de la tabla
+    const headers = Object.keys(rows[0] || {});
+
     return (
         <table className="primary-table">
             <thead>
-            <TableCustomHead />
+            <TableCustomHead headers={headers} />
             </thead>
             <tbody>
             <TableCustomBody rows={rows} />

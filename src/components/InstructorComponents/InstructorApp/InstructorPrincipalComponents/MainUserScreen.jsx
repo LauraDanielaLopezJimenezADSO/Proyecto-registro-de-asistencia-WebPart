@@ -1,8 +1,15 @@
 import LabelField from "../../../sectionDatos/labelFile.jsx";
-import UserCredentials from "../../../../context/API/APISessionManager/userSession.js";
+import {useAuth} from "../../../../context/API/APISessionManager/userSession.jsx";
 
 export default function MainUserScreen() {
-    const userInstance = UserCredentials.getInstance();
+    const auth = useAuth();
+
+    if (!auth) {
+        console.error('useAuth() returned undefined. Make sure your component is wrapped with <AuthProvider>.');
+        return null; // O maneja el error de otra manera
+    }
+
+    const { user } = auth;
 
     return (
         <section className="section__datos">
@@ -21,19 +28,19 @@ export default function MainUserScreen() {
                         label="Documento"
                         id="documento"
                         type="text"
-                        buttonText={userInstance.getUserDocument()}
+                        buttonText={user.documento}
                     />
                     <LabelField
                         label="Nombres"
                         id="nombres"
                         type="text"
-                        buttonText={userInstance.getUserFirstName()}
+                        buttonText={user.nombres}
                     />
                     <LabelField
                         label="Apellidos"
                         id="apellidos"
                         type="text"
-                        buttonText={userInstance.getUserLastName()}
+                        buttonText={user.apellidos}
                     />
                     <LabelField
                         label="Correo electrónico"

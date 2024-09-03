@@ -1,8 +1,9 @@
 .TextBg{
     padding: 0.3rem;
-    width: calc(80%);
+    width: calc(95%);
     margin: 0 auto;
     color: var(--colorDenario);
+    cursor: default;
 }
 
 .TextBg--YllVariant{

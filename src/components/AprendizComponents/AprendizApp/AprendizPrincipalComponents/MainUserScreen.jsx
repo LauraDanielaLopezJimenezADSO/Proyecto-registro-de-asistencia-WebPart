@@ -1,8 +1,47 @@
 import LabelField from "../../../sectionDatos/labelFile.jsx";
-import UserCredentials from "../../../../context/API/APISessionManager/userSession.js";
+import {useAuth} from "../../../../context/API/APISessionManager/userSession.jsx";
+import {useEffect, useState} from "react";
+import ObtenerUsuario from "../../../../context/API/API_ObtenerUsuario.js";
+
+
 
 export default function MainUserScreen() {
-    const userInstance = UserCredentials.getInstance();
+    const [userData, setUserData] = useState(null);
+    const [error, setError] = useState(null);
+
+    const auth = useAuth();
+
+    if (!auth) {
+        console.error('useAuth() returned undefined. Make sure your component is wrapped with <AuthProvider>.');
+        return null; // Maneja el error según tu lógica de aplicación
+    }
+
+    const { user } = auth;
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const data = await ObtenerUsuario(user.documento);
+                setUserData(data);
+                console.log(userData)
+            } catch (err) {
+                setError('Failed to fetch user data');
+                console.error(err);
+            }
+        };
+
+        if (user && user.documento) {
+            fetchUserData();
+        }
+    }, [user]);
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    if (!userData) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <section className="section__datos">
@@ -15,55 +54,85 @@ export default function MainUserScreen() {
                         label="Tipo de documento"
                         id="tipo_documento"
                         type="text"
-                        buttonText="CC" // Modifica si tienes este dato disponible
+                        buttonText={userData.tipoDocumento || 'No disponible'}
                     />
                     <LabelField
                         label="Documento"
                         id="documento"
                         type="text"
-                        buttonText={userInstance.getUserDocument()}
+                        buttonText={userData.documento || 'No disponible'}
                     />
                     <LabelField
                         label="Nombres"
                         id="nombres"
                         type="text"
-                        buttonText={userInstance.getUserFirstName()}
-                    />
-                    <LabelField
-                        label="Apellidos"
-                        id="apellidos"
-                        type="text"
-                        buttonText={userInstance.getUserLastName()}
+                        buttonText={userData.nombres + ' ' + userData.apellidos || 'No disponible'}
                     />
                     <LabelField
                         label="Correo electrónico"
                         id="correo"
                         type="text"
-                        buttonText="correo@example.com" // Modifica si tienes este dato disponible
+                        buttonText={userData.correo || 'No disponible'}
                     />
                     <LabelField
                         label="Sexo"
                         id="sexo"
                         type="text"
-                        buttonText="Masculino" // Modifica si tienes este dato disponible
+                        buttonText={userData.genero || 'No disponible'}
                     />
                     <LabelField
                         label="Celular"
                         id="celular"
                         type="text"
-                        buttonText="123456789" // Modifica si tienes este dato disponible
-                    />
-                    <LabelField
-                        label="Especialización"
-                        id="especializacion"
-                        type="text"
-                        buttonText="Especialista" // Modifica si tienes este dato disponible
+                        buttonText={userData.telefono || 'No disponible'}
                     />
                     <LabelField
                         label="Tipo de Instructor"
                         id="tipo_instructor"
                         type="text"
-                        buttonText="Instructor" // Modifica si tienes este dato disponible
+                        buttonText={userData.rol || 'No disponible'}
+                    />
+                    <LabelField
+                        label="Sede"
+                        id="sede"
+                        type="text"
+                        buttonText={userData.sede || 'No disponible'}
+                    />
+                    <LabelField
+                        label="Usuario"
+                        id="usuario"
+                        type="text"
+                        buttonText={userData.user || 'No disponible'}
+                    />
+                    <LabelField
+                        label="Programa de Formación"
+                        id="programa_formacion"
+                        type="text"
+                        buttonText={userData.programaFormacion || 'No disponible'}
+                    />
+                    <LabelField
+                        label="Jornada de Formación"
+                        id="jornada_formacion"
+                        type="text"
+                        buttonText={userData.jornadaFormacion || 'No disponible'}
+                    />
+                    <LabelField
+                        label="Nivel de Formación"
+                        id="nivel_formacion"
+                        type="text"
+                        buttonText={userData.nivelFormacion || 'No disponible'}
+                    />
+                    <LabelField
+                        label="Número de Ficha"
+                        id="numero_ficha"
+                        type="text"
+                        buttonText={userData.numeroFicha || 'No disponible'}
+                    />
+                    <LabelField
+                        label="Contraseña"
+                        id="contraseña"
+                        type="password" // Cambiado a 'password' para mayor seguridad
+                        buttonText={'••••••••'} // No mostrar la contraseña en texto plano
                     />
                 </div>
             </div>

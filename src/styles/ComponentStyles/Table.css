@@ -2,7 +2,7 @@
 
 
 .primary-table{
-    width: calc(90%);
+    width: calc(100%);
     margin: auto 0;
     border-collapse: collapse;
 }
@@ -16,7 +16,10 @@
     padding: 0.5rem 1rem;
 }
 
+
+
 .TableBodyRow__RowItem{
-    padding: 1px;
+    padding: 6px;
+    text-align: center;
 }
 
