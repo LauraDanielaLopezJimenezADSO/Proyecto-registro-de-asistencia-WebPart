@@ -8,7 +8,7 @@ import Loading from "../../../LoadingCom.jsx";
 import PrimaryButton from "../../../buttons/primaryButton.jsx";
 import PrimaryInput from "../../../inputs/primaryInput.jsx";
 
-export default function MainSearchScreen({ UserFirstName }) {
+export default function MainSearchScreen({ UserFirstName, UserDoc }) {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -16,7 +16,7 @@ export default function MainSearchScreen({ UserFirstName }) {
     useEffect(() => {
         async function getData() {
             try {
-                const data = await fetchAsistencias(UserFirstName);
+                const data = await fetchAsistencias(UserDoc);
                 setRows(data);
             } catch (error) {
                 setError(error);
@@ -45,7 +45,7 @@ export default function MainSearchScreen({ UserFirstName }) {
             <SubTitle texto="Listado de asistencias" />
             <PrimaryButton>Buscar</PrimaryButton>
             <PrimaryInput />
-            <PrimaryTable rows={rows} />
+            <PrimaryTable rows={rows} tipo='traerAsistencias'/>
         </main>
     );
 }

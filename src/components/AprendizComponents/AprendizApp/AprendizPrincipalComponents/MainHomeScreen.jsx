@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
-import Title from "../../../Text/Title.jsx";
-import {fetchAsistencias, fetchHistoricoInasistencias} from "../../../../context/API/API_TableContent.js";
+import {fetchHistoricoInasistencias} from "../../../../context/API/API_TableContent.js";
 import "../../../../styles/AprendizStyles/AprendizHomePageStyle.css";
+import "../../../../styles/ComponentStyles/Buttons/SecondaryButton.css"
 import Loading from "../../../LoadingCom.jsx";
 import CardComponent from "../AprendizAppComplements/CardComponent.jsx";
 import PrimaryTable from "../../../Table/PrimaryTable.jsx";
 import SubTittle from "../../../Text/SubTitle.jsx";
 import {traerInasistencias} from "../../../../context/API/AprendizAPIAction/API_TraerInasistencias.js";
 import BarChartInasistencias from "../AprendizAppComplements/BarChartInasistencias.jsx";
-import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
-import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFnsV3";
-import {TextField} from "@mui/material";
+import {DatePicker} from "@mui/x-date-pickers";
+import SecondaryButton from "../../../buttons/secondaryButton.jsx";
+import AsisViewerScreen from "./MainHomeScreenComponents/AsisViewer.jsx";
+
+
 
 export default function MainHomeScreen({ UserFirstName, UserDoc }) {
     const [AprendizInasistencias, setAprendizInasistencias] = useState([]);
@@ -18,6 +20,7 @@ export default function MainHomeScreen({ UserFirstName, UserDoc }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedDate, setSelectedDate] = useState(String(new Date()));
+    const [currentView, setCurrentView] = useState('home'); // Nuevo estado para manejar la vista actual
 
     useEffect(() => {
         async function getData() {
@@ -28,15 +31,13 @@ export default function MainHomeScreen({ UserFirstName, UserDoc }) {
             }
 
             try {
-                // Obtener el histórico de inasistencias para llenar la tabla
                 const dataHistorico = await fetchHistoricoInasistencias(UserDoc);
                 setHistoricoInasistencias(dataHistorico);
-                console.log(dataHistorico)
+                console.log(dataHistorico);
 
-                // Obtener las inasistencias para llenar las tarjetas
                 const dataInasistenciasClase = await traerInasistencias(UserDoc);
                 setAprendizInasistencias(dataInasistenciasClase.slice(0, 2)); // Mostrar solo las primeras 2 inasistencias
-                console.log(dataInasistenciasClase)
+                console.log(dataInasistenciasClase);
 
             } catch (error) {
                 setError(error);
@@ -49,11 +50,14 @@ export default function MainHomeScreen({ UserFirstName, UserDoc }) {
     }, [UserFirstName, UserDoc]);
 
     const handleDate = (fecha) => {
-        const convertF = String(fecha.getFullYear()) + '-' + String(fecha.getMonth() + 1) + '-' + String(fecha.getDate())
-        setSelectedDate(convertF)
-        console.log(convertF)
-    }
+        const convertF = String(fecha.getFullYear()) + '-' + String(fecha.getMonth() + 1) + '-' + String(fecha.getDate());
+        setSelectedDate(convertF);
+        console.log(convertF);
+    };
 
+    const handleShowClasses = () => {
+        setCurrentView('inasistencias');
+    };
 
     if (loading) {
         return (
@@ -67,6 +71,10 @@ export default function MainHomeScreen({ UserFirstName, UserDoc }) {
         return <div id="error"><h1>Error: {error.message}</h1></div>;
     }
 
+    // Renderiza el componente según el estado `currentView`
+    if (currentView === 'inasistencias') {
+        return <AsisViewerScreen UserFirstName={UserFirstName} UserDoc={UserDoc} />;
+    }
 
     const renderCard = (inasistencia, index) => {
         if (!inasistencia) return <p key={index}>No hay datos disponibles.</p>;
@@ -95,13 +103,12 @@ export default function MainHomeScreen({ UserFirstName, UserDoc }) {
                     ) : (
                         <p>No hay inasistencias registradas.</p>
                     )}
+                    <SecondaryButton texto="Mostrar clases con inasistencias" onClick={handleShowClasses} /> {/* Cambia la vista al hacer clic */}
                 </section>
 
                 {/* Segunda Sección - Ocupa 3/5 del ancho */}
                 <section className="main-content__SecondSection">
-                    <DatePicker
-                        onChange={handleDate}
-                    />
+                    <DatePicker onChange={handleDate} />
                     <BarChartInasistencias initialDate={selectedDate} />
                 </section>
 
@@ -109,7 +116,7 @@ export default function MainHomeScreen({ UserFirstName, UserDoc }) {
                 <section className="main-content__ThirdSection">
                     <SubTittle text="Histórico de Inasistencias" />
                     {historicoInasistencias.length > 0 ? (
-                        <PrimaryTable rows={historicoInasistencias} /> // Usa tu componente de tabla con los datos
+                        <PrimaryTable rows={historicoInasistencias} tipo="traerHistorico"/> // Usa tu componente de tabla con los datos
                     ) : (
                         <p>No hay registros de inasistencias disponibles.</p>
                     )}

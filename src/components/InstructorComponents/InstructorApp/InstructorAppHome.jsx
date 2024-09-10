@@ -5,6 +5,7 @@ import MainSearchScreen from "./InstructorPrincipalComponents/MainSearchScreen.j
 import MainUserScreen from "./InstructorPrincipalComponents/MainUserScreen.jsx";
 import {useAuth} from "../../../context/API/APISessionManager/userSession.jsx";
 import '../../../styles/InstructorStyles/InstructorHomePageStyle.css';
+import MainVerifyScreen from "./InstructorPrincipalComponents/MainVerifyScreen.jsx";
 
 export default function InstructorAppHome({ onLogout }) {
     const [currentView, setCurrentView] = useState('home');
@@ -12,6 +13,7 @@ export default function InstructorAppHome({ onLogout }) {
 
     const showHome = () => setCurrentView('home');
     const showSearch = () => setCurrentView('search');
+    const showVerify = () =>  setCurrentView('verify');
     const showUser = () => setCurrentView('user');
 
     const renderView = () => {
@@ -19,7 +21,9 @@ export default function InstructorAppHome({ onLogout }) {
             case 'home':
                 return <MainHomeScreen UserFirstName={user.nombres} UserDoc={user.documento} />;
             case 'search':
-                return <MainSearchScreen UserFirstName={user.nombres} />;
+                return <MainSearchScreen UserFirstName={user.nombres} UserDoc={user.documento} />;
+            case 'verify':
+                return <MainVerifyScreen UserFirstName={user.nombres} UserDoc={user.documento} />
             case 'user':
                 return <MainUserScreen />;
             default:
@@ -32,6 +36,7 @@ export default function InstructorAppHome({ onLogout }) {
             <AsideBar
                 showHome={showHome}
                 showSearch={showSearch}
+                showVerify={showVerify}
                 showUser={showUser}
                 ActiveButton={currentView.toUpperCase()}
                 UserName={`${user.nombres} ${user.apellidos}`}

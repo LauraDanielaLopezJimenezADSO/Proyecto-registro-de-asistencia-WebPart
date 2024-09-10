@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from "react";
-import Title from "../../../Text/Title.jsx";
+import React, {useEffect, useState} from "react";
+import {fetchHistoricoInasistencias, fetchInasistenciasPorFecha} from "../../../../context/API/API_TableContent.js";
+import Loading from "../../../LoadingCom.jsx";
 import SubTitle from "../../../Text/SubTitle.jsx";
 import PrimaryTable from "../../../Table/PrimaryTable.jsx";
-import {fetchAsistencias, fetchHistoricoInasistencias} from "../../../../context/API/API_TableContent.js";
-import "../../../../styles/InstructorStyles/InstructorSearchPageStyle.css";
-import Loading from "../../../LoadingCom.jsx";
-import PrimaryButton from "../../../buttons/primaryButton.jsx";
-import PrimaryInput from "../../../inputs/primaryInput.jsx";
+import {DatePicker} from "@mui/x-date-pickers";
 
-export default function MainSearchScreen({ UserFirstName , UserDoc}) {
+export default function MainUploadScreen({ UserFirstName , UserDoc}) {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(String(new Date()));
 
     useEffect(() => {
         async function getData() {
@@ -39,10 +37,21 @@ export default function MainSearchScreen({ UserFirstName , UserDoc}) {
         return <div id="error"><h1>Error: {error.message}</h1></div>;
     }
 
+    const handleDate = async (fecha) => {
+        const convertF = String(fecha.getFullYear()) + '-' + String(fecha.getMonth() + 1) + '-' + String(fecha.getDate());
+        setSelectedDate(convertF);
+
+        const newDataTable = await fetchInasistenciasPorFecha(UserDoc, convertF);
+        setRows(newDataTable);
+
+        console.log(convertF);
+    };
+
     return (
         <main id="main">
             <SubTitle texto="Listado de asistencias" />
-            <PrimaryTable rows={rows} tipo="traerHistorico"/>
+            <DatePicker onChange={handleDate} />
+            <PrimaryTable rows={rows} tipo='traerSoporte'/>
         </main>
     );
 }

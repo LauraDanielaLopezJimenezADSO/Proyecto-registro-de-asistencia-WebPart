@@ -23,8 +23,8 @@ html, body {
 /* Contenedor principal que excluye la sidebar */
 #view-container {
     flex: 1; /* Ocupa todo el espacio restante */
-    display: flex;
-    flex-direction: column;
+    position: relative;
+    overflow: hidden;
 }
 
 /* Contenido Principal (Dashboard) */
@@ -75,6 +75,8 @@ html, body {
 .main-content__FirstSection {
     grid-column: 1 / 2; /* Ocupa la primera columna (2/5) */
 }
+
+
 
 .main-content__SecondSection {
     grid-column: 2 / 3; /* Ocupa la segunda columna (3/5) */

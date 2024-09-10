@@ -4,7 +4,7 @@ import "../../styles/ComponentStyles/Table.css"
 
 
 
-export default function PrimaryTable({ rows }) {
+export default function PrimaryTable({ rows , tipo }) {
     if (!rows || rows.length === 0) {
         return <div>No hay datos disponibles para mostrar.</div>;
     }
@@ -15,10 +15,10 @@ export default function PrimaryTable({ rows }) {
     return (
         <table className="primary-table">
             <thead>
-            <TableCustomHead headers={headers} />
+            <TableCustomHead headers={headers} tipo={tipo} />
             </thead>
             <tbody>
-            <TableCustomBody rows={rows} />
+            <TableCustomBody rows={rows} tipo={tipo}/>
             </tbody>
         </table>
     );

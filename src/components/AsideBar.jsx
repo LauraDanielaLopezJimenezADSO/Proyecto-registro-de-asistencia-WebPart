@@ -7,13 +7,15 @@ import PrimaryButton from "./buttons/primaryButton.jsx"
 import SecondaryButton from "./buttons/secondaryButton.jsx";
 import {useAuth} from "../context/API/APISessionManager/userSession.jsx";
 
-export default function AsideBar({ UserName, Rol, ActiveButton, showHome, showSearch, showUser, onLogout }) {
-    const { logout } = useAuth();
+export default function AsideBar({ UserName, Rol, ActiveButton, showHome, showUpload, showVerify, showSearch, showUser, onLogout }) {
+    const { logout, user } = useAuth(); // Obtenemos user del hook useAuth
 
     const handleLogout = () => {
         logout(); // Ejecuta la función de logout desde el contexto de autenticación
         onLogout(); // Llama a la función pasada desde el componente padre para actualizar la vista
     };
+
+    console.log(user)
 
     return (
         <aside className="aside">
@@ -35,6 +37,19 @@ export default function AsideBar({ UserName, Rol, ActiveButton, showHome, showSe
                         texto="INICIO"
                         onClick={showHome}
                     />
+                    {user.rol === 'Aprendiz' ? (
+                        <SecondaryButton
+                            clase={`SecondaryButton ${ActiveButton === 'UPLOAD' ? 'SecondaryButton--SecondaryButtonActive' : ''}`}
+                            texto="SUBIR SOPORTE"
+                            onClick={showUpload}
+                        />
+                    ) : user.rol === 'Instructor' ? (
+                        <SecondaryButton
+                            clase={`SecondaryButton ${ActiveButton === 'VERIFY' ? 'SecondaryButton--SecondaryButtonActive' : ''}`}
+                            texto="VERIFICAR SOPORTES"
+                            onClick={showVerify} // Cambia esto si tienes otra función específica para verificar soportes
+                        />
+                    ) : null}
                     <SecondaryButton
                         clase={`SecondaryButton ${ActiveButton === 'SEARCH' ? 'SecondaryButton--SecondaryButtonActive' : ''}`}
                         texto="BUSCAR"

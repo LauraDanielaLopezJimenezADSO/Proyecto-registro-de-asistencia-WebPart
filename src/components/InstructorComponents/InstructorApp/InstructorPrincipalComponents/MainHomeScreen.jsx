@@ -6,7 +6,7 @@ import { fetchAsistencias } from "../../../../context/API/API_TableContent.js";
 import "../../../../styles/InstructorStyles/InstructorHomePageStyle.css";
 import Loading from "../../../LoadingCom.jsx";
 
-export default function MainHomeScreen({ UserFirstName }) {
+export default function MainHomeScreen({ UserFirstName, UserDoc }) {
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -14,7 +14,7 @@ export default function MainHomeScreen({ UserFirstName }) {
     useEffect(() => {
         async function getData() {
             try {
-                const data = await fetchAsistencias(UserFirstName);
+                const data = await fetchAsistencias(UserDoc);
                 console.log(data)
                 setRows(data.slice(-5)); // Últimos 5 registros
             } catch (error) {
@@ -42,7 +42,7 @@ export default function MainHomeScreen({ UserFirstName }) {
         <main id="main">
             <Title texto="Bienvenido al sistema de visualización de asistencias" />
             <SubTitle texto="Últimas 5 asistencias" />
-            <PrimaryTable rows={rows} />
+            <PrimaryTable rows={rows} tipo='traerAsistencias'/>
         </main>
     );
 }

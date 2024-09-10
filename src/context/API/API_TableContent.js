@@ -2,14 +2,14 @@
 
 export async function fetchAsistencias(instructor) {
     try {
-        const response = await fetch(`http://localhost:8080/Archives/ListarAsistencias?instructor=${instructor}`);
+        const response = await fetch(`http://localhost:8080/Archives/ListarAsistencias?IDInstructor=${instructor}`);
         if (!response.ok) {
             throw new Error('Error fetching data');
         }
         const data = await response.json();
         return data.map(item => ({
             Ambiente: item.ambiente,
-            Competencia: item.competencia,
+            Clase: item.clase,
             Instructor: item.instructor,
             Fecha: item.fecha,
             Ficha: item.ficha,
@@ -56,6 +56,47 @@ export async function fetchHistoricoInasistencias(documento) {
             Instructor: item.Instructor,
             Aprendiz: item.Aprendiz,
             HorasInasistencia: item.HorasInasistencia
+        }));
+    } catch (error) {
+        console.error('Error fetching historical attendance data:', error);
+        throw error;
+    }
+}
+
+export async function fetchInasistenciasPorFecha(documento, fecha) {
+    try {
+        const response = await fetch(`http://localhost:8080/Horas/ObtenerUsuarioHorasInasistenciaPorFecha?documento=${documento}&fecha=${fecha}`);
+        if (!response.ok) {
+            throw new Error('Error fetching historical attendance data');
+        }
+        const data = await response.json();
+        return data.map(item => ({
+            Fecha: item.Fecha,
+            NombreClase: item.NombreClase,
+            Instructor: item.Instructor,
+            Aprendiz: item.Aprendiz,
+            HorasInasistencia: item.HorasInasistencia
+        }));
+    } catch (error) {
+        console.error('Error fetching historical attendance data:', error);
+        throw error;
+    }
+}
+
+
+export async function fetchHistoricoSoportesPorFicha(ficha, fecha) {
+    try {
+        const response = await fetch(`http://localhost:8080/Horas/ObtenerHorasInasistenciaPorFicha?numeroFicha=${ficha}&fecha=${fecha}`);
+        if (!response.ok) {
+            throw new Error('Error fetching historical attendance data');
+        }
+        const data = await response.json();
+        return data.map(item => ({
+            Nombre: item.Nombres,
+            Documento: item.Documento,
+            Ficha: item.Ficha,
+            HorasInasistencia: item.HorasInasistencia,
+            Soporte: item.Soporte
         }));
     } catch (error) {
         console.error('Error fetching historical attendance data:', error);
