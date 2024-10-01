@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {fetchHistoricoInasistencias, fetchInasistenciasPorFecha} from "../../../../context/API/API_TableContent.js";
+
 import Loading from "../../../LoadingCom.jsx";
 import SubTitle from "../../../Text/SubTitle.jsx";
 import PrimaryTable from "../../../Table/PrimaryTable.jsx";
 import {DatePicker} from "@mui/x-date-pickers";
+import {listarDetallesInasistenciasPorClase} from "../../../../context/API/AprendizAPIAction/API_TraerInasistencias.js";
 
 export default function MainUploadScreen({ UserFirstName , UserDoc}) {
     const [rows, setRows] = useState([]);
@@ -14,8 +15,7 @@ export default function MainUploadScreen({ UserFirstName , UserDoc}) {
     useEffect(() => {
         async function getData() {
             try {
-                const data = await fetchHistoricoInasistencias(UserDoc);
-                setRows(data);
+               setRows(await listarDetallesInasistenciasPorClase(UserDoc));
             } catch (error) {
                 setError(error);
             } finally {
@@ -40,9 +40,6 @@ export default function MainUploadScreen({ UserFirstName , UserDoc}) {
     const handleDate = async (fecha) => {
         const convertF = String(fecha.getFullYear()) + '-' + String(fecha.getMonth() + 1) + '-' + String(fecha.getDate());
         setSelectedDate(convertF);
-
-        const newDataTable = await fetchInasistenciasPorFecha(UserDoc, convertF);
-        setRows(newDataTable);
 
         console.log(convertF);
     };

@@ -19,15 +19,15 @@ export default function AprendizAppHome({ onLogout }) {
     const renderView = () => {
         switch (currentView) {
             case 'home':
-                return <MainHomeScreen UserFirstName={user.nombres} UserDoc={user.documento} key="home" />;
+                return <MainHomeScreen UserFirstName={user.FullName} UserDoc={user.Documento} key="home" />;
             case 'upload':
-                return <MainUploadScreen UserFirstName={user.nombres} UserDoc={user.documento} key="home" />;
+                return <MainUploadScreen UserFirstName={user.FullName} UserDoc={user.Documento} key="home" />;
             case 'search':
-                return <MainSearchScreen UserFirstName={user.nombres} UserDoc={user.documento} key="search" />;
+                return <MainSearchScreen UserFirstName={user.FullName} UserDoc={user.Documento} key="search" />;
             case 'user':
                 return <MainUserScreen key="user" />;
             default:
-                return <MainHomeScreen UserFirstName={user.nombres} UserDoc={user.documento} key="home" />;
+                return <MainHomeScreen UserFirstName={user.FullName} UserDoc={user.Documento} key="home" />;
         }
     };
 
@@ -39,7 +39,7 @@ export default function AprendizAppHome({ onLogout }) {
                 showSearch={showSearch}
                 showUser={showUser}
                 ActiveButton={currentView.toUpperCase()}
-                UserName={`${user.nombres} ${user.apellidos}`}
+                UserName={`${user.FullName}`}
                 Rol="Aprendiz"
                 onLogout={onLogout}
             />

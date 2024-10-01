@@ -21,7 +21,8 @@ export default function MainUserScreen() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const data = await ObtenerUsuario(user.documento);
+                console.log(user.Documento);
+                const data = await ObtenerUsuario(user.Documento);
                 setUserData(data);
                 console.log(userData)
             } catch (err) {
@@ -30,7 +31,7 @@ export default function MainUserScreen() {
             }
         };
 
-        if (user && user.documento) {
+        if (user && user.Documento) {
             fetchUserData();
         }
     }, [user]);
@@ -87,12 +88,6 @@ export default function MainUserScreen() {
                         buttonText={userData.telefono || 'No disponible'}
                     />
                     <LabelField
-                        label="Tipo de Instructor"
-                        id="tipo_instructor"
-                        type="text"
-                        buttonText={userData.rol || 'No disponible'}
-                    />
-                    <LabelField
                         label="Sede"
                         id="sede"
                         type="text"
@@ -126,7 +121,7 @@ export default function MainUserScreen() {
                         label="Número de Ficha"
                         id="numero_ficha"
                         type="text"
-                        buttonText={userData.numeroFicha || 'No disponible'}
+                        buttonText={userData.ficha || 'No disponible'}
                     />
                     <LabelField
                         label="Contraseña"

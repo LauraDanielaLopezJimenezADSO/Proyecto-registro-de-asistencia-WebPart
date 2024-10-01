@@ -37,13 +37,13 @@ export default function AsideBar({ UserName, Rol, ActiveButton, showHome, showUp
                         texto="INICIO"
                         onClick={showHome}
                     />
-                    {user.rol === 'Aprendiz' ? (
+                    {user.Role === 'Aprendiz' ? (
                         <SecondaryButton
                             clase={`SecondaryButton ${ActiveButton === 'UPLOAD' ? 'SecondaryButton--SecondaryButtonActive' : ''}`}
                             texto="SUBIR SOPORTE"
                             onClick={showUpload}
                         />
-                    ) : user.rol === 'Instructor' ? (
+                    ) : user.Role === 'Instructor' ? (
                         <SecondaryButton
                             clase={`SecondaryButton ${ActiveButton === 'VERIFY' ? 'SecondaryButton--SecondaryButtonActive' : ''}`}
                             texto="VERIFICAR SOPORTES"

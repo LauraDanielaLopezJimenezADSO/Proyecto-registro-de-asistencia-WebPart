@@ -1,8 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {
-    fetchHistoricoSoportesPorFicha,
-    fetchInasistenciasPorFecha
-} from "../../../../context/API/API_TableContent.js";
+
 import Loading from "../../../LoadingCom.jsx";
 import SubTitle from "../../../Text/SubTitle.jsx";
 import {DatePicker} from "@mui/x-date-pickers";
@@ -22,7 +19,7 @@ export default function MainVerifyScreen({ UserFirstName, UserDoc }) {
             try {
                 // Usa los valores de estado que están definidos
                 console.log(ficha, selectedDate);
-                const data = await fetchHistoricoSoportesPorFicha(ficha, selectedDate);
+
                 setRows(data);
             } catch (error) {
                 setError(error);
@@ -54,8 +51,7 @@ export default function MainVerifyScreen({ UserFirstName, UserDoc }) {
         setSelectedDate(convertF);
 
         try {
-            const newDataTable = await fetchHistoricoSoportesPorFicha(ficha, convertF);
-            setRows(newDataTable);
+
         } catch (err) {
             setError(err);
         }

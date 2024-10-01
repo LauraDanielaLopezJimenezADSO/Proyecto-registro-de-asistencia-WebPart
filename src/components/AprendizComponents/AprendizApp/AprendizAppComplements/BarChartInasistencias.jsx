@@ -1,45 +1,57 @@
 // Asegúrate de tener Chart.js y su adapter para trabajar con fechas
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import {useEffect, useState} from "react";
-import {fetchInasistenciasPorRangoFechas} from "../../../../context/API/AprendizAPIAction/API_TraerInasistencias.js";
-import {Bar} from "react-chartjs-2";
+import { useEffect, useState } from "react";
+import { obtenerInasistenciasPorSemana } from "../../../../context/API/AprendizAPIAction/API_TraerInasistencias.js";
+import { Bar } from "react-chartjs-2";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+import dayjs from 'dayjs';
 
-const BarChartInasistencias = ({ initialDate }) => {
-    const [chartData, setChartData] = useState({ labels: [], datasets: [] });
+// ... (resto de importaciones)
+
+const BarChartInasistencias = ({ initialDate, UserDoc }) => {
+    const [chartData, setChartData] = useState(null);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (!initialDate) return;
+        if (!initialDate || !UserDoc) return;
 
         const fetchData = async () => {
             try {
-                const data = await fetchInasistenciasPorRangoFechas(4073477, initialDate); // Ejemplo de documento fijo
+                // Convertimos la fecha a 'YYYY-MM-DD'
+                const fechaInicio = initialDate.format('YYYY-MM-DD');
 
-                // Obtener el índice del día de la semana de la fecha inicial (0=Domingo, 1=Lunes,...)
-                const startDayIndex = new Date(initialDate).getDay();
-                const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+                const data = await obtenerInasistenciasPorSemana(UserDoc, fechaInicio);
 
-                // Crear una lista de días que comience desde el día inicial y continúe por 7 días
-                const orderedDaysOfWeek = [...daysOfWeek.slice(startDayIndex), ...daysOfWeek.slice(0, startDayIndex)];
-
-                // Inicializar inasistenciasPorDia con 0 para cada uno de los 7 días
+                // Inicializamos las inasistencias por día
                 const inasistenciasPorDia = Array(7).fill(0);
 
                 if (data && data.length > 0) {
                     data.forEach((record) => {
-                        const date = new Date(record.Fecha);
-                        const dayIndex = (date.getDay() - startDayIndex + 7) % 7; // Ajusta el índice relativo al día inicial
-                        inasistenciasPorDia[dayIndex] += record.HorasInasistencia; // Asigna las horas de inasistencia al día correspondiente
+                        const date = dayjs(record.Fecha);
+                        const dayIndex = date.day(); // 0=Domingo, 1=Lunes,...
+                        inasistenciasPorDia[dayIndex] += record.HorasInasistencia;
                     });
                 }
 
-                // Actualiza el estado del chartData
+                // Generamos las etiquetas y los datos ordenados
+                const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+                const startDayIndex = initialDate.day();
+                const orderedDaysOfWeek = [];
+                const orderedInasistencias = [];
+
+                for (let i = 0; i < 7; i++) {
+                    const index = (startDayIndex + i) % 7;
+                    orderedDaysOfWeek.push(daysOfWeek[index]);
+                    orderedInasistencias.push(inasistenciasPorDia[index]);
+                }
+
+                // Actualizamos el estado del gráfico
                 setChartData({
                     labels: orderedDaysOfWeek,
                     datasets: [
                         {
                             label: 'Horas de Inasistencia',
-                            data: inasistenciasPorDia,
+                            data: orderedInasistencias,
                             borderColor: 'rgba(4, 27, 82, 1)',
                             backgroundColor: 'rgba(0, 34, 64, 0.8)',
                             borderWidth: 2,
@@ -50,26 +62,20 @@ const BarChartInasistencias = ({ initialDate }) => {
                 });
             } catch (error) {
                 console.error('Error fetching data:', error);
-                // En caso de error, muestra todos los valores en 0
-                setChartData({
-                    labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
-                    datasets: [
-                        {
-                            label: 'Horas de Inasistencia',
-                            data: [0, 0, 0, 0, 0, 0, 0],
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderWidth: 2,
-                            borderRadius: 5,
-                            borderSkipped: false,
-                        },
-                    ],
-                });
+                setError('Error al obtener los datos de inasistencias.');
             }
         };
 
         fetchData();
-    }, [initialDate]);
+    }, [initialDate, UserDoc]);
+
+    if (error) {
+        return <p>{error}</p>;
+    }
+
+    if (!chartData) {
+        return <p>Cargando datos...</p>;
+    }
 
     return (
         <Bar
@@ -82,13 +88,16 @@ const BarChartInasistencias = ({ initialDate }) => {
                     },
                     title: {
                         display: true,
-                        text: `Inasistencias desde ${initialDate}`,
+                        text: `Inasistencias desde ${initialDate.format('DD/MM/YYYY')}`,
                     },
                 },
                 scales: {
                     y: {
-                        max: 5, // Máximo de horas de inasistencia
+                        max: 12,
                         beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,
+                        },
                     },
                 },
             }}

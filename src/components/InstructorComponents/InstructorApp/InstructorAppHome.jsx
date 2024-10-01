@@ -19,15 +19,15 @@ export default function InstructorAppHome({ onLogout }) {
     const renderView = () => {
         switch (currentView) {
             case 'home':
-                return <MainHomeScreen UserFirstName={user.nombres} UserDoc={user.documento} />;
+                return <MainHomeScreen UserFirstName={user.FullName} UserDoc={user.Documento} />;
             case 'search':
-                return <MainSearchScreen UserFirstName={user.nombres} UserDoc={user.documento} />;
+                return <MainSearchScreen UserFirstName={user.FullName} UserDoc={user.Documento} />;
             case 'verify':
-                return <MainVerifyScreen UserFirstName={user.nombres} UserDoc={user.documento} />
+                return <MainVerifyScreen UserFirstName={user.FullName} UserDoc={user.Documento} />
             case 'user':
                 return <MainUserScreen />;
             default:
-                return <MainHomeScreen UserFirstName={user.nombres} UserDoc={user.documento} />;
+                return <MainHomeScreen UserFirstName={user.FullName} UserDoc={user.Documento} />;
         }
     };
 
@@ -39,7 +39,7 @@ export default function InstructorAppHome({ onLogout }) {
                 showVerify={showVerify}
                 showUser={showUser}
                 ActiveButton={currentView.toUpperCase()}
-                UserName={`${user.nombres} ${user.apellidos}`}
+                UserName={`${user.FullName}`}
                 Rol="Instructor"
                 onLogout={onLogout} // Pasa la función de logout al AsideBar
             />

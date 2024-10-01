@@ -1,106 +1,37 @@
+// Archivo: /src/context/API/API_TableContent.js
 
-
-export async function fetchAsistencias(instructor) {
+// Función para obtener las asistencias de un instructor específico
+export async function fetchAsistencias(documentoInstructor) {
     try {
-        const response = await fetch(`http://localhost:8080/Archives/ListarAsistencias?IDInstructor=${instructor}`);
+        const response = await fetch(`http://localhost:8080/Asistencia/listar/InstructorAsis?documentoInstructor=${documentoInstructor}`);
         if (!response.ok) {
-            throw new Error('Error fetching data');
+            throw new Error('Error al obtener las asistencias');
         }
         const data = await response.json();
         return data.map(item => ({
-            Ambiente: item.ambiente,
-            Clase: item.clase,
-            Instructor: item.instructor,
-            Fecha: item.fecha,
-            Ficha: item.ficha,
-            IDArchivo: item.IDArchivo
-        }));
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        throw error;
-    }
-}
-
-export async function downloadArchivo(id) {
-    try {
-        const response = await fetch(`http://localhost:8080/Archives/descargarArchivo/${id}`);
-        if (!response.ok) {
-            throw new Error('Error downloading file');
-        }
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = `asistencia_${id}.xlsx`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-    } catch (error) {
-        console.error('Error downloading file:', error);
-        throw error;
-    }
-}
-
-export async function fetchHistoricoInasistencias(documento) {
-    try {
-        const response = await fetch(`http://localhost:8080/Horas/ObtenerHistoricoInAsistencias?documento=${documento}`);
-        if (!response.ok) {
-            throw new Error('Error fetching historical attendance data');
-        }
-        const data = await response.json();
-        return data.map(item => ({
-            Fecha: item.Fecha,
-            NombreClase: item.NombreClase,
+            Ambiente: item.Ambiente,
+            ClaseFormacion: item.ClaseFormacion,
             Instructor: item.Instructor,
-            Aprendiz: item.Aprendiz,
-            HorasInasistencia: item.HorasInasistencia
-        }));
-    } catch (error) {
-        console.error('Error fetching historical attendance data:', error);
-        throw error;
-    }
-}
-
-export async function fetchInasistenciasPorFecha(documento, fecha) {
-    try {
-        const response = await fetch(`http://localhost:8080/Horas/ObtenerUsuarioHorasInasistenciaPorFecha?documento=${documento}&fecha=${fecha}`);
-        if (!response.ok) {
-            throw new Error('Error fetching historical attendance data');
-        }
-        const data = await response.json();
-        return data.map(item => ({
-            Fecha: item.Fecha,
-            NombreClase: item.NombreClase,
-            Instructor: item.Instructor,
-            Aprendiz: item.Aprendiz,
-            HorasInasistencia: item.HorasInasistencia
-        }));
-    } catch (error) {
-        console.error('Error fetching historical attendance data:', error);
-        throw error;
-    }
-}
-
-
-export async function fetchHistoricoSoportesPorFicha(ficha, fecha) {
-    try {
-        const response = await fetch(`http://localhost:8080/Horas/ObtenerHorasInasistenciaPorFicha?numeroFicha=${ficha}&fecha=${fecha}`);
-        if (!response.ok) {
-            throw new Error('Error fetching historical attendance data');
-        }
-        const data = await response.json();
-        return data.map(item => ({
-            Nombre: item.Nombres,
-            Documento: item.Documento,
+            FechaRegistro: item.FechaRegistro,
             Ficha: item.Ficha,
-            HorasInasistencia: item.HorasInasistencia,
-            Soporte: item.Soporte
+            TipoAsistencia: item.TipoAsistencia,
+            ArchivoExcel: item.ArchivoExcel // Este campo está en Base64
         }));
     } catch (error) {
-        console.error('Error fetching historical attendance data:', error);
+        console.error('Error al obtener las asistencias:', error);
         throw error;
     }
 }
+
+// Función para descargar el archivo de asistencia a partir del Base64
+export function downloadArchivoBase64(base64Data, fileName = 'asistencia.xlsx') {
+    const linkSource = `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,${base64Data}`;
+    const downloadLink = document.createElement('a');
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
+}
+
+
+
 

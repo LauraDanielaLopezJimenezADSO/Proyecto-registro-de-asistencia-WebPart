@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Title from "../../../Text/Title.jsx";
 import SubTitle from "../../../Text/SubTitle.jsx";
 import PrimaryTable from "../../../Table/PrimaryTable.jsx";
-import {fetchAsistencias, fetchHistoricoInasistencias} from "../../../../context/API/API_TableContent.js";
+import { fetchAsistencias } from "../../../../context/API/API_TableContent.js";
 import "../../../../styles/InstructorStyles/InstructorSearchPageStyle.css";
 import Loading from "../../../LoadingCom.jsx";
 import PrimaryButton from "../../../buttons/primaryButton.jsx";
@@ -16,8 +16,7 @@ export default function MainSearchScreen({ UserFirstName , UserDoc}) {
     useEffect(() => {
         async function getData() {
             try {
-                const data = await fetchHistoricoInasistencias(UserDoc);
-                setRows(data);
+
             } catch (error) {
                 setError(error);
             } finally {
