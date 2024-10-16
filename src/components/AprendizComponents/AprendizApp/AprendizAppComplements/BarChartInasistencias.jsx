@@ -6,8 +6,6 @@ import { Bar } from "react-chartjs-2";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 import dayjs from 'dayjs';
 
-// ... (resto de importaciones)
-
 const BarChartInasistencias = ({ initialDate, UserDoc }) => {
     const [chartData, setChartData] = useState(null);
     const [error, setError] = useState(null);
@@ -22,7 +20,7 @@ const BarChartInasistencias = ({ initialDate, UserDoc }) => {
 
                 const data = await obtenerInasistenciasPorSemana(UserDoc, fechaInicio);
 
-                // Inicializamos las inasistencias por día
+                // Inicializamos las inasistencias por día con 0
                 const inasistenciasPorDia = Array(7).fill(0);
 
                 if (data && data.length > 0) {
@@ -63,6 +61,22 @@ const BarChartInasistencias = ({ initialDate, UserDoc }) => {
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setError('Error al obtener los datos de inasistencias.');
+
+                // Mostrar gráfico vacío con todas las inasistencias en 0
+                setChartData({
+                    labels: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                    datasets: [
+                        {
+                            label: 'Horas de Inasistencia',
+                            data: Array(7).fill(0),
+                            borderColor: 'rgba(4, 27, 82, 1)',
+                            backgroundColor: 'rgba(0, 34, 64, 0.8)',
+                            borderWidth: 2,
+                            borderRadius: 5,
+                            borderSkipped: false,
+                        },
+                    ],
+                });
             }
         };
 

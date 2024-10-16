@@ -16,9 +16,17 @@ export async function traerInasistencias(DocumentoAprendiz) {
 export async function obtenerInasistenciasPorSemana(documento, fechaInicio) {
     try {
         const response = await fetch(`http://localhost:8080/Asistencia/ObtenerUsuarioHorasInasistenciaPorSemana?documento=${documento}&fechaInicio=${fechaInicio}`);
+
+        // Si la respuesta es 404 (no encontrado), devolvemos una lista vacía
+        if (response.status === 404) {
+            console.warn('No se encontraron datos para el documento y la semana especificados.');
+            return [];
+        }
+
         if (!response.ok) {
             throw new Error('Error al obtener inasistencias por semana');
         }
+
         const data = await response.json();
         return data.map(item => ({
             Fecha: item.Fecha,
@@ -32,6 +40,7 @@ export async function obtenerInasistenciasPorSemana(documento, fechaInicio) {
         throw error;
     }
 }
+
 
 export async function traerHistoricoInasistencias(documento) {
     try {
