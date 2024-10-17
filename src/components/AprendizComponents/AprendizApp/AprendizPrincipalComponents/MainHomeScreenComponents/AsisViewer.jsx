@@ -65,27 +65,29 @@ export default function AsisViewerScreen({ UserFirstName , UserDoc }) {
         return (
             <CardComponent
                 key={index}
-                classNameParent="FirstSection__Card"
+                classNameParent="FirstSection__Card FirstSection__Card--AsisViewer"
                 classNameContentContainer="Card__cardContentContainer"
-                Title={inasistencia.NombreClase || 'Clase no especificada'}
-                FirstTxt={`Instructor: ${inasistencia.NombreInstructor || 'No disponible'}`}
-                SecordTxt={`Ficha: ${inasistencia.ProgramaFormacion || 'No disponible'} ${inasistencia.NumeroFicha || ''}`}
-                ThirdTxt={`Horas inasistencia: ${inasistencia.HorasInasistencia || 0}`}
+                Title={inasistencia.ClaseFormacion || 'Clase no especificada'}
+                FirstTxt={`Instructor: ${inasistencia.Instructor || 'No disponible'}`}
+                SecordTxt={`Ficha: ${inasistencia.Ficha || 'Ficha no encontrada'}`}
+                ThirdTxt={`Horas inasistencia: ${inasistencia.TotalAsistencias || 0}`}
             />
         );
     };
 
     return (
         <main id="main">
-            <section className="main__gridContainer">
+            <section className="main__gridContainer main__gridContainer--asisViewer">
                 {/* Primera Sección - Ocupa 2/5 del ancho */}
-                <section className="main-content__FirstSectio">
-                    <SubTittle text="Clases con más inasistencias" />
-                    {AprendizInasistencias.length > 0 ? (
-                        AprendizInasistencias.map(renderCard) // Renderiza solo los primeros 2 elementos si existen
-                    ) : (
-                        <p>No hay inasistencias registradas.</p>
-                    )}
+                <section className="main-content__FirstSection main-content__FirstSection--AsisViewer">
+                    <SubTittle text="Clases con inasistencias" />
+                    <section className="FirstSection__AsisContainer">
+                        {AprendizInasistencias.length > 0 ? (
+                            AprendizInasistencias.map(renderCard) // Renderiza solo los primeros 2 elementos si existen
+                        ) : (
+                            <p>No hay inasistencias registradas.</p>
+                        )}
+                    </section>
                 </section>
                 <SecondaryButton texto="Volver" onClick={handleShowClasses} />
             </section>

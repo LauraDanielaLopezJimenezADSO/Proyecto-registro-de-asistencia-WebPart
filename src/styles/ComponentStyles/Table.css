@@ -3,7 +3,8 @@
 
 .primary-table{
     width: calc(100%);
-    margin: auto 0;
+
+    margin: 1rem 0;
     border-collapse: collapse;
 }
 
@@ -16,10 +17,15 @@
     padding: 0.5rem 1rem;
 }
 
-
-
 .TableBodyRow__RowItem{
     padding: 6px;
     text-align: center;
 }
+
+.primary-table > tbody > tr{
+    height: 3rem;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+
 

@@ -16,6 +16,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import SecondaryButton from "../../../buttons/secondaryButton.jsx";
 import AsisViewerScreen from "./MainHomeScreenComponents/AsisViewer.jsx";
 import dayjs from 'dayjs';
+import {theme} from "../../../../App.jsx";
+import {ThemeProvider} from "@mui/material";
 
 export default function MainHomeScreen({ UserFirstName, UserDoc }) {
     const [AprendizInasistencias, setAprendizInasistencias] = useState([]);
@@ -46,7 +48,7 @@ export default function MainHomeScreen({ UserFirstName, UserDoc }) {
 
                 // Llamada al endpoint para obtener el histórico de inasistencias
                 const dataHistoricoInasistencias = await traerHistoricoInasistencias(UserDoc);
-                setHistoricoInasistencias(dataHistoricoInasistencias);
+                setHistoricoInasistencias(dataHistoricoInasistencias.slice(0, 5));
                 console.log("Histórico de inasistencias:", dataHistoricoInasistencias);
 
             } catch (error) {
@@ -103,42 +105,45 @@ export default function MainHomeScreen({ UserFirstName, UserDoc }) {
     };
 
     return (
-        <main id="main">
-            <section className="main__gridContainer">
-                {/* Primera Sección - Ocupa 2/5 del ancho */}
-                <section className="main-content__FirstSection">
-                    <SubTittle text="Clases con más inasistencias" />
-                    {AprendizInasistencias.length > 0 ? (
-                        AprendizInasistencias.map(renderCard) // Renderiza solo los primeros 2 elementos si existen
-                    ) : (
-                        <p>No hay inasistencias registradas.</p>
-                    )}
-                    <SecondaryButton texto="Mostrar clases con inasistencias" onClick={handleShowClasses} /> {/* Cambia la vista al hacer clic */}
-                </section>
+        <ThemeProvider theme={theme}>
+            <main id="main">
+                <section className="main__gridContainer">
+                    {/* Primera Sección - Ocupa 2/5 del ancho */}
+                    <section className="main-content__FirstSection">
+                        <SubTittle text="Clases con más inasistencias" />
+                        {AprendizInasistencias.length > 0 ? (
+                            AprendizInasistencias.map(renderCard) // Renderiza solo los primeros 2 elementos si existen
+                        ) : (
+                            <p>No hay inasistencias registradas.</p>
+                        )}
+                        <SecondaryButton texto="Mostrar clases con inasistencias" onClick={handleShowClasses} /> {/* Cambia la vista al hacer clic */}
+                    </section>
 
-                {/* Segunda Sección - Ocupa 3/5 del ancho */}
-                <section className="main-content__SecondSection">
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            label="Seleccione una fecha"
-                            value={selectedDate}
-                            onChange={handleDate}
-                            format="DD/MM/YYYY"
-                        />
-                    </LocalizationProvider>
-                    <BarChartInasistencias initialDate={selectedDate} UserDoc={UserDoc} />
-                </section>
+                    {/* Segunda Sección - Ocupa 3/5 del ancho */}
+                    <section className="main-content__SecondSection">
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                className="SecondSection__DatePicker"
+                                label="Seleccione una fecha"
+                                value={selectedDate}
+                                onChange={handleDate}
+                                format="DD/MM/YYYY"
+                            />
+                        </LocalizationProvider>
+                        <BarChartInasistencias initialDate={selectedDate} UserDoc={UserDoc} />
+                    </section>
 
-                {/* Tercera Sección - Ocupa ambas columnas */}
-                <section className="main-content__ThirdSection">
-                    <SubTittle text="Histórico de Inasistencias" />
-                    {historicoInasistencias.length > 0 ? (
-                        <PrimaryTable rows={historicoInasistencias} tipo="traerHistorico" /> // Usa tu componente de tabla con los datos
-                    ) : (
-                        <p>No hay registros de inasistencias disponibles.</p>
-                    )}
+                    {/* Tercera Sección - Ocupa ambas columnas */}
+                    <section className="main-content__ThirdSection">
+                        <SubTittle text="Ultimas asistencias" />
+                        {historicoInasistencias.length > 0 ? (
+                            <PrimaryTable rows={historicoInasistencias} tipo="traerHistorico" /> // Usa tu componente de tabla con los datos
+                        ) : (
+                            <p>No hay registros de inasistencias disponibles.</p>
+                        )}
+                    </section>
                 </section>
-            </section>
-        </main>
+            </main>
+        </ThemeProvider>
     );
 }

@@ -6,8 +6,18 @@ import LoginController from "./context/AppContoller/LoginController.js";
 import {useAuth} from "./context/API/APISessionManager/userSession.jsx";
 import AprendizAppHome from "./components/AprendizComponents/AprendizApp/AprendizAppHome.jsx";
 import InstructorAppHome from "./components/InstructorComponents/InstructorApp/InstructorAppHome.jsx";
+import {createTheme} from "@mui/material/styles";
 
-
+export const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#39A900',
+    },
+    secondary: {
+      main: '#002240',
+    },
+  },
+});
 
 function App() {
   const [usuario, setUsuario] = useState('');
