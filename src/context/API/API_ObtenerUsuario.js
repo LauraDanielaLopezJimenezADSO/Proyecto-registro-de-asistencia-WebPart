@@ -10,25 +10,19 @@ export default async function ObtenerAprendiz(Doc) {
 
         // Crear una instancia de AprendizModel con los datos obtenidos
         const aprendiz = new AprendizModel(
-            data.User,
-            data.Password,
-            data.Documento,
-            data.TipoDocumento,
-            data.Nombres,
-            data.Apellidos,
-            data.FechaNacimiento,
-            data.Telefono,
-            data.Correo,
-            data.Genero,
-            data.Residencia,
-            data.Ficha,
-            data.ProgramaFormacion,
-            data.JornadaFormacion,
-            data.NivelFormacion,
-            data.Sede,
-            data.Area
+            data.User,                    // user
+            data.Password,                // password
+            data.Documento,               // documento
+            data.TipoDocumento,           // tipoDocumento
+            data.Nombres,                 // nombres
+            data.Apellidos,               // apellidos
+            data.FecNacimiento,           // fechaNacimiento
+            data.Telefono,                // telefono
+            data.Correo,                  // correo
+            data.Genero,                  // genero
+            data.Residencia,              // residencia
+            data.Vinculaciones            // vinculaciones
         );
-
         return aprendiz;
     } catch (error) {
         console.error('Error en ObtenerAprendiz:', error);

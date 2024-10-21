@@ -2,8 +2,9 @@
 .labelContainer{
     font-size: var(--letraEstandar);
     display: flex;
-    justify-content: center;
-    width: 60vw;
+    width: 100%;
+    margin: 0.5rem 0;
+    justify-content: space-between;
 }
 .cont{
     padding: 5px;
@@ -23,7 +24,7 @@
 /* button */
 .labelD{
     height: 44px;
-    width: 500px;
+    width: 80%;
     background: var(--colorOctonario);
     border: none;
     border-radius: 10px;

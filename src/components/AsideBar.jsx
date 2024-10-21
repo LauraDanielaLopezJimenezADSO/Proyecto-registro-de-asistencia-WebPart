@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import "../styles/ComponentStyles/sideBar.css"
 import "../styles/ComponentStyles/texts/TextBg.css"
 import "../styles/ComponentStyles/texts/Title.css"
@@ -8,14 +8,15 @@ import SecondaryButton from "./buttons/secondaryButton.jsx";
 import {useAuth} from "../context/API/APISessionManager/userSession.jsx";
 
 export default function AsideBar({ UserName, Rol, ActiveButton, showHome, showUpload, showVerify, showSearch, showUser, onLogout }) {
-    const { logout, user } = useAuth(); // Obtenemos user del hook useAuth
+    const { logout, user } = useAuth();
+    const [showToast, setShowToast] = useState(false); // Estado para manejar el toast
 
     const handleLogout = () => {
-        logout(); // Ejecuta la función de logout desde el contexto de autenticación
-        onLogout(); // Llama a la función pasada desde el componente padre para actualizar la vista
+        logout();
+        onLogout();
     };
 
-    console.log(user)
+    console.log('Valor de ActiveButton:', ActiveButton);
 
     return (
         <aside className="aside">
@@ -27,36 +28,36 @@ export default function AsideBar({ UserName, Rol, ActiveButton, showHome, showUp
                         className="ImageCont__Logo"
                     />
                 </figure>
-                <p className="TextBg">Usuario: {UserName}</p>
+                <p className="TextBg">{UserName}</p>
                 <p className="TextBg TextBg--YllVariant">{Rol}</p>
             </section>
             <section className="aside__sectionCont aside__sectionCont--SpaceBetween">
                 <div className="sectionCont__linksBtnContainer">
                     <SecondaryButton
-                        clase={`SecondaryButton ${ActiveButton === 'HOME' ? 'SecondaryButton--SecondaryButtonActive' : ''}`}
+                        clase={`SecondaryButton ${ActiveButton.toLowerCase() === 'home' ? 'SecondaryButton--SecondaryButtonActive' : ''}`}
                         texto="INICIO"
                         onClick={showHome}
                     />
                     {user.Role === 'Aprendiz' ? (
                         <SecondaryButton
-                            clase={`SecondaryButton ${ActiveButton === 'UPLOAD' ? 'SecondaryButton--SecondaryButtonActive' : ''}`}
+                            clase={`SecondaryButton ${ActiveButton.toLowerCase() === 'upload' ? 'SecondaryButton--SecondaryButtonActive' : ''}`}
                             texto="SUBIR SOPORTE"
                             onClick={showUpload}
                         />
                     ) : user.Role === 'Instructor' ? (
                         <SecondaryButton
-                            clase={`SecondaryButton ${ActiveButton === 'VERIFY' ? 'SecondaryButton--SecondaryButtonActive' : ''}`}
+                            clase={`SecondaryButton ${ActiveButton.toLowerCase() === 'verify' ? 'SecondaryButton--SecondaryButtonActive' : ''}`}
                             texto="VERIFICAR SOPORTES"
-                            onClick={showVerify} // Cambia esto si tienes otra función específica para verificar soportes
+                            onClick={showVerify}
                         />
                     ) : null}
                     <SecondaryButton
-                        clase={`SecondaryButton ${ActiveButton === 'SEARCH' ? 'SecondaryButton--SecondaryButtonActive' : ''}`}
+                        clase={`SecondaryButton ${ActiveButton.toLowerCase() === 'search' ? 'SecondaryButton--SecondaryButtonActive' : ''}`}
                         texto="BUSCAR"
                         onClick={showSearch}
                     />
                     <SecondaryButton
-                        clase={`SecondaryButton ${ActiveButton === 'USER' ? 'SecondaryButton--SecondaryButtonActive' : ''}`}
+                        clase={`SecondaryButton ${ActiveButton.toLowerCase() === 'user' ? 'SecondaryButton--SecondaryButtonActive' : ''}`}
                         texto="USUARIO"
                         onClick={showUser}
                     />

@@ -4,7 +4,6 @@ import "../../styles/ComponentStyles/label.css"
 const LabelField = ({ label, id, type, buttonText}) => {
   return (
     <div className='labelContainer'>
-      <div className='cont'>
         <label className='cont__labelDatos' htmlFor={id}>{label}:</label>
         <button
           className="labelD"
@@ -13,7 +12,6 @@ const LabelField = ({ label, id, type, buttonText}) => {
         >
           {buttonText}
         </button>
-      </div>
     </div>
   );
 };

@@ -129,6 +129,35 @@ html, body {
     justify-self: flex-end;
 }
 
+.view-container__datos{
+    margin: 0 auto;
+    color: var(--colorNonario);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+}
+.view-container__datos > .datos{
+    width: 100%;
+}
+
+.datos > .datos__cont{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.view-container__datos > *{
+    margin-top: 1rem;
+
+}
+
+.view-container__datos > h2{
+    margin-top: 3rem;
+}
+
+
 #loading,
 #error {
     width: 100%;

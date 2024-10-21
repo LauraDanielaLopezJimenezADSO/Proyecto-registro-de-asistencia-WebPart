@@ -116,7 +116,7 @@ export default function MainHomeScreen({ UserFirstName, UserDoc }) {
                         ) : (
                             <p>No hay inasistencias registradas.</p>
                         )}
-                        <SecondaryButton texto="Mostrar clases con inasistencias" onClick={handleShowClasses} /> {/* Cambia la vista al hacer clic */}
+                        <SecondaryButton clase="SecondaryButton" texto="Mostrar clases con inasistencias" onClick={handleShowClasses} /> {/* Cambia la vista al hacer clic */}
                     </section>
 
                     {/* Segunda Sección - Ocupa 3/5 del ancho */}

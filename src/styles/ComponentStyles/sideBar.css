@@ -27,6 +27,10 @@
   margin-top: 3rem;
 }
 
+.aside__sectionCont > p{
+  text-align: center;
+}
+
 .aside__sectionCont--SpaceBetween{
   height: calc(100%);
   display: flex;

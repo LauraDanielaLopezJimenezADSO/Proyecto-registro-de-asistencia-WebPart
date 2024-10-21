@@ -95,13 +95,12 @@ body {
   width: 100%; /* Ajusta la entrada para que ocupe todo el ancho disponible */
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid var(--colorPrimario);
 }
 
 .selectOption {
   height: 40px;
   border-radius: 8px;
-  width: auto;
+  width: 100%;
   background: var(--colorPrimario);
   color: var(--colorDenario);
   border: none;
@@ -109,20 +108,6 @@ body {
 
 }
 
-.PrimaryButton {
-  width: 100%;
-  padding: 15px;
-  border: none;
-  background: var(--colorPrimario);
-  color: var(--colorDenario);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.PrimaryButton:hover {
-  background: var(--colorSecundario); /* Efecto hover */
-}
 
 
 

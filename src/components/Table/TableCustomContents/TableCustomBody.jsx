@@ -1,7 +1,7 @@
 // TableCustomBody.jsx
 import React from 'react';
 import dayjs from 'dayjs';
-import { downloadArchivoBase64 } from "../../../context/API/API_TableContent.js";
+import { downloadArchivoBase64 } from "../../../context/API/API_Asis.js";
 import "../../../styles/ComponentStyles/Table.css";
 import PrimaryButton from "../../buttons/primaryButton.jsx";
 import '../../../styles/ComponentStyles/Buttons/PrimaryButton.css';
@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import { subirSoportePDF } from "../../../context/API/AprendizAPIAction/API_SubirSoporte.js";
 
-// Estilos para el input oculto
+// Estilo para el input oculto
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
     clipPath: 'inset(50%)',
@@ -62,35 +62,17 @@ const formatearFecha = (fecha) => {
     return fecha ? dayjs(fecha).format('DD/MM/YYYY HH:mm') : 'Fecha no disponible';
 };
 
-
-
-
-export default function TableCustomBody({ rows, tipo }) {
-    const handleFileChange = async (event, idRegistroActividad) => {
-        console.log('Llamando a subirSoportePDF con ID:', idRegistroActividad);
-        const file = event.target.files[0];
-        console.log(file);
-
-        if (file && file.type === 'application/pdf') {
-            try {
-                await subirSoportePDF(idRegistroActividad, file);
-                alert('Soporte PDF subido exitosamente.');
-                // Aquí puedes actualizar el estado o recargar los datos si es necesario
-            } catch (error) {
-                alert('Error al subir el soporte PDF.');
-            }
-        } else {
-            alert('Por favor, seleccione un archivo PDF.');
-        }
+export default function TableCustomBody({ rows, tipo, handleFileChange }) {
+    // Función para determinar si el soporte ha sido subido
+    const isSoporteSubido = (row) => {
+        return row.Soporte && row.Soporte !== '';
     };
-
-
-
 
     // Función para renderizar filas según el tipo
     const renderRowByTipo = (row, index) => {
         switch (tipo) {
             case 'traerHistorico':
+                // Renderizado para 'traerHistorico'
                 return (
                     <tr key={index}>
                         <td className="TableBodyRow__RowItem">
@@ -100,14 +82,16 @@ export default function TableCustomBody({ rows, tipo }) {
                         <td className="TableBodyRow__RowItem">{row.Instructor || 'No disponible'}</td>
                         <td className="TableBodyRow__RowItem">
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <span style={{
-                                    backgroundColor: obtenerColorPorHoras(row.HorasInasistencia),
-                                    borderRadius: '50%',
-                                    display: 'inline-block',
-                                    width: '15px',
-                                    height: '15px',
-                                    marginRight: '8px'
-                                }}></span>
+                                <span
+                                    style={{
+                                        backgroundColor: obtenerColorPorHoras(row.HorasInasistencia),
+                                        borderRadius: '50%',
+                                        display: 'inline-block',
+                                        width: '15px',
+                                        height: '15px',
+                                        marginRight: '8px',
+                                    }}
+                                ></span>
                                 {row.HorasInasistencia} horas
                             </div>
                         </td>
@@ -115,8 +99,8 @@ export default function TableCustomBody({ rows, tipo }) {
                         <td className="TableBodyRow__RowItem">{row.TipoAsistencia || 'No disponible'}</td>
                     </tr>
                 );
-
             case 'traerAsistencias':
+                // Renderizado para 'traerAsistencias'
                 return (
                     <tr key={index}>
                         <td className="TableBodyRow__RowItem">
@@ -131,7 +115,6 @@ export default function TableCustomBody({ rows, tipo }) {
                         </td>
                     </tr>
                 );
-
             case 'traerSoporte':
                 return (
                     <tr key={index} id={`${row.ID}`}>
@@ -141,47 +124,64 @@ export default function TableCustomBody({ rows, tipo }) {
                         <td className="TableBodyRow__RowItem">{row.ClaseFormacion || 'No especificado'}</td>
                         <td className="TableBodyRow__RowItem">{row.Instructor || 'No disponible'}</td>
                         <td className="TableBodyRow__RowItem">
-                            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                                <span style={{
-                                    backgroundColor: obtenerColorPorHoras(row.TotalHorasInasistencia),
-                                    borderRadius: '50%',
-                                    display: 'inline-block',
-                                    width: '15px',
-                                    height: '15px',
-                                    marginRight: '8px'
-                                }}></span>
+                            <div
+                                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                            >
+                                <span
+                                    style={{
+                                        backgroundColor: obtenerColorPorHoras(row.TotalHorasInasistencia),
+                                        borderRadius: '50%',
+                                        display: 'inline-block',
+                                        width: '15px',
+                                        height: '15px',
+                                        marginRight: '8px',
+                                    }}
+                                ></span>
                                 {row.TotalHorasInasistencia} horas
                             </div>
                         </td>
                         <td className="TableBodyRow__RowItem">{row.TipoAsistencia || 'No disponible'}</td>
                         <td className="TableBodyRow__RowItem">
                             {row.TotalHorasInasistencia > 0 ? (
-                                <Button
-                                    component="label"
-                                    variant="contained"
-                                    startIcon={<CloudUploadIcon/>}
-                                    style={{
-                                        width: '100%',
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        backgroundColor: '#002240'
-                                    }}
-                                >
-                                    Cargar Soporte
-                                    <VisuallyHiddenInput
-                                        type="file"
-                                        onChange={(event) => handleFileChange(event, row.ID)}
-                                        multiple={false}
-                                    />
-                                </Button>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    {/* Rectángulo que indica el estado del soporte */}
+                                    <div
+                                        style={{
+                                            width: '15px',
+                                            height: '55px',
+                                            backgroundColor: isSoporteSubido(row) ? '#289700' : '#c00000',
+                                            marginRight: '8px',
+                                            borderRadius: '4px',
+                                        }}
+                                    ></div>
+                                    {/* Botón para cargar el soporte */}
+                                    <Button
+                                        component="label"
+                                        variant="contained"
+                                        startIcon={<CloudUploadIcon />}
+                                        style={{
+                                            width: '100%',
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            backgroundColor: '#002240',
+                                        }}
+                                    >
+                                        Cargar Soporte
+                                        <VisuallyHiddenInput
+                                            type="file"
+                                            onChange={(event) => handleFileChange(event, row.ID)}
+                                            multiple={false}
+                                        />
+                                    </Button>
+                                </div>
                             ) : (
                                 <span>No Aplica</span>
                             )}
                         </td>
                     </tr>
                 );
-
             case 'verSoportes':
+                // Renderizado para 'verSoportes'
                 return (
                     <tr key={index}>
                         <td className="TableBodyRow__RowItem">
@@ -190,15 +190,19 @@ export default function TableCustomBody({ rows, tipo }) {
                         <td className="TableBodyRow__RowItem">{row.ClaseFormacion || 'No especificado'}</td>
                         <td className="TableBodyRow__RowItem">{row.Instructor || 'No disponible'}</td>
                         <td className="TableBodyRow__RowItem">
-                            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                                <span style={{
-                                    backgroundColor: obtenerColorPorHoras(row.HorasInasistencia),
-                                    borderRadius: '50%',
-                                    display: 'inline-block',
-                                    width: '15px',
-                                    height: '15px',
-                                    marginRight: '8px'
-                                }}></span>
+                            <div
+                                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                            >
+                                <span
+                                    style={{
+                                        backgroundColor: obtenerColorPorHoras(row.HorasInasistencia),
+                                        borderRadius: '50%',
+                                        display: 'inline-block',
+                                        width: '15px',
+                                        height: '15px',
+                                        marginRight: '8px',
+                                    }}
+                                ></span>
                                 {row.HorasInasistencia} horas
                             </div>
                         </td>
@@ -215,9 +219,21 @@ export default function TableCustomBody({ rows, tipo }) {
                         </td>
                     </tr>
                 );
-
+            case 'vinculaciones':
+                return (
+                    <tr key={index}>
+                        <td className="TableBodyRow__RowItem">{row.Ficha || 'No disponible'}</td>
+                        <td className="TableBodyRow__RowItem">{row.Area || 'No disponible'}</td>
+                        <td className="TableBodyRow__RowItem">{row.Sede || 'No disponible'}</td>
+                        <td className="TableBodyRow__RowItem">{row.ClaseFormacion || 'No disponible'}</td>
+                        <td className="TableBodyRow__RowItem">{row.JornadaFormacion || 'No disponible'}</td>
+                        <td className="TableBodyRow__RowItem">{row.NombreInstructor || 'No disponible'}</td>
+                        <td className="TableBodyRow__RowItem">{row.NivelFormacion || 'No disponible'}</td>
+                        <td className="TableBodyRow__RowItem">{row.ProgramaFormacion || 'No disponible'}</td>
+                    </tr>
+            );
             default:
-                // Renderizado por defecto si el tipo no coincide
+            // Renderizado por defecto si el tipo no coincide
                 return (
                     <tr key={index}>
                         {Object.entries(row).map(([key, value], idx) => (

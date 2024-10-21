@@ -5,6 +5,9 @@ import { obtenerInasistenciasPorSemana } from "../../../../context/API/AprendizA
 import { Bar } from "react-chartjs-2";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 import dayjs from 'dayjs';
+import 'dayjs/locale/es'; // Importar el idioma español
+dayjs.locale('es')
+
 
 const BarChartInasistencias = ({ initialDate, UserDoc }) => {
     const [chartData, setChartData] = useState(null);
@@ -15,41 +18,46 @@ const BarChartInasistencias = ({ initialDate, UserDoc }) => {
 
         const fetchData = async () => {
             try {
-                // Convertimos la fecha a 'YYYY-MM-DD'
+                // Convertimos initialDate a 'YYYY-MM-DD'
                 const fechaInicio = initialDate.format('YYYY-MM-DD');
 
                 const data = await obtenerInasistenciasPorSemana(UserDoc, fechaInicio);
 
-                // Inicializamos las inasistencias por día con 0
+                // Generamos un arreglo de fechas para la semana
+                const weekDates = [];
+                const daysOfWeek = [];
+                for (let i = 0; i < 7; i++) {
+                    const date = initialDate.add(i, 'day');
+                    weekDates.push(date);
+                    daysOfWeek.push(date.format('dddd')); // Obtiene el nombre del día en español
+                }
+
+                // Inicializamos las inasistencias por día
                 const inasistenciasPorDia = Array(7).fill(0);
+
+                // Mapeamos las fechas a índices
+                const dateToIndexMap = {};
+                weekDates.forEach((date, index) => {
+                    dateToIndexMap[date.format('YYYY-MM-DD')] = index;
+                });
 
                 if (data && data.length > 0) {
                     data.forEach((record) => {
-                        const date = dayjs(record.Fecha);
-                        const dayIndex = date.day(); // 0=Domingo, 1=Lunes,...
-                        inasistenciasPorDia[dayIndex] += record.HorasInasistencia;
+                        const recordDate = dayjs(record.FechaRegistro).format('YYYY-MM-DD');
+                        if (dateToIndexMap.hasOwnProperty(recordDate)) {
+                            const index = dateToIndexMap[recordDate];
+                            inasistenciasPorDia[index] += record.HorasInasistencia;
+                        }
                     });
-                }
-
-                // Generamos las etiquetas y los datos ordenados
-                const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-                const startDayIndex = initialDate.day();
-                const orderedDaysOfWeek = [];
-                const orderedInasistencias = [];
-
-                for (let i = 0; i < 7; i++) {
-                    const index = (startDayIndex + i) % 7;
-                    orderedDaysOfWeek.push(daysOfWeek[index]);
-                    orderedInasistencias.push(inasistenciasPorDia[index]);
                 }
 
                 // Actualizamos el estado del gráfico
                 setChartData({
-                    labels: orderedDaysOfWeek,
+                    labels: daysOfWeek,
                     datasets: [
                         {
                             label: 'Horas de Inasistencia',
-                            data: orderedInasistencias,
+                            data: inasistenciasPorDia,
                             borderColor: 'rgba(4, 27, 82, 1)',
                             backgroundColor: 'rgba(0, 34, 64, 0.8)',
                             borderWidth: 2,
