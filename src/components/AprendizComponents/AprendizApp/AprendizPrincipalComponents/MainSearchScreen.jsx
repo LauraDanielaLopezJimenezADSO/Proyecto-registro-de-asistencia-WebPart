@@ -121,9 +121,9 @@ export default function MainSearchScreen({ UserFirstName, UserDoc }) {
         <ThemeProvider theme={theme}>
             <main id="main">
                 <section className="main__UploadMainContent">
-                    <SubTitle texto="Listado de asistencias" />
+
                     <section className="UploadMainContent__TableContainer">
-                        <div style={{ display: 'flex', gap: '1rem' }}>
+                        <div style={{display: 'flex', gap: '1rem'}}>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
                                     className="SecondSection__DatePicker"
@@ -150,16 +150,14 @@ export default function MainSearchScreen({ UserFirstName, UserDoc }) {
                         />
                     </section>
 
-                    {/* Mostrar paginación solo si hay más de una página */}
-                    {filteredRows.length > rowsPerPage && (
-                        <Pagination
-                            className="UploadMainContent__Pagination"
-                            count={Math.ceil(filteredRows.length / rowsPerPage)}
-                            page={page}
-                            onChange={(event, value) => setPage(value)}
-                            color="primary"
-                        />
-                    )}
+                    <Pagination
+                        className="UploadMainContent__Pagination"
+                        count={Math.ceil(filteredRows.length / rowsPerPage)}
+                        page={page}
+                        onChange={(event, value) => setPage(value)}
+                        color="primary"
+                    />
+
                 </section>
             </main>
         </ThemeProvider>

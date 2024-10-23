@@ -1,6 +1,6 @@
 import {AprendizModel} from "../../model/AprendizModel.js";
 
-export default async function ObtenerAprendiz(Doc) {
+export async function ObtenerAprendiz(Doc) {
     try {
         const response = await fetch('http://localhost:8080/Aprendiz/' + Doc);
         if (!response.ok) {
@@ -24,6 +24,21 @@ export default async function ObtenerAprendiz(Doc) {
             data.Vinculaciones            // vinculaciones
         );
         return aprendiz;
+    } catch (error) {
+        console.error('Error en ObtenerAprendiz:', error);
+        throw error;
+    }
+}
+
+
+export async function ObtenerInstructor(Doc) {
+    try {
+        const response = await fetch('http://localhost:8080/Instructor/' + Doc);
+        if (!response.ok) {
+            throw new Error('Error al obtener el aprendiz');
+        }
+        const data = await response.json();
+        return data;
     } catch (error) {
         console.error('Error en ObtenerAprendiz:', error);
         throw error;

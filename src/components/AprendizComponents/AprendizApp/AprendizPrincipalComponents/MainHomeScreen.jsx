@@ -48,7 +48,7 @@ export default function MainHomeScreen({ UserFirstName, UserDoc }) {
 
                 // Llamada al endpoint para obtener el histórico de inasistencias
                 const dataHistoricoInasistencias = await traerHistoricoInasistencias(UserDoc);
-                setHistoricoInasistencias(dataHistoricoInasistencias.slice(0, 5));
+                setHistoricoInasistencias(dataHistoricoInasistencias.slice(0, 4));
                 console.log("Histórico de inasistencias:", dataHistoricoInasistencias);
 
             } catch (error) {

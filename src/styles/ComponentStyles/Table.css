@@ -20,6 +20,7 @@
 .TableBodyRow__RowItem{
     padding: 6px;
     text-align: center;
+    color: var(--colorNonario);
 }
 
 .primary-table > tbody > tr{

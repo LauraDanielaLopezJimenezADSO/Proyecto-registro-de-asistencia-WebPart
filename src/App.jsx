@@ -100,7 +100,7 @@ function App() {
 
             <section className="FormSection">
               <h2 className='subtituloLogin'>Ingreso al Control de Asistencias</h2>
-              <form className='formularioLogin' noValidate onSubmit={(e) => e.preventDefault()}>
+              <form autoComplete="off" className='formularioLogin' noValidate onSubmit={(e) => e.preventDefault()}>
                 <div className="formularioSelect">
                   <InputField
                       label="Documento"
@@ -162,7 +162,7 @@ function App() {
 
               {/* Mostrar mensaje de error solo si hay errores */}
               {(usuarioError || contrasenaError) && (
-                  <Message style={{width: '100%'}} showIcon type="error" header="A problem occurred">
+                  <Message style={{width: '100%'}} showIcon type="error" header="Uno o varios campos son invalidos">
                     <ol>
                       {usuarioError && <li>El usuario no puede estar vacío.</li>}
                       {contrasenaError && <li>La contraseña debe tener al menos 8 caracteres.</li>}

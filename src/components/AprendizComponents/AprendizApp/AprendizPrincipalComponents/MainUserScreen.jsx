@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import LabelField from "../../../sectionDatos/labelFile.jsx";
 import { useAuth } from "../../../../context/API/APISessionManager/userSession.jsx";
-import ObtenerUsuario from "../../../../context/API/API_ObtenerUsuario.js";
+import {ObtenerAprendiz} from "../../../../context/API/API_ObtenerUsuario.js";
 import PrimaryTable from "../../../Table/PrimaryTable.jsx";
 import {Pagination, ThemeProvider} from '@mui/material'; // Importar Pagination de Material-UI
 import {theme} from "../../../../App.jsx";
@@ -27,7 +27,7 @@ export default function MainUserScreen() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const data = await ObtenerUsuario(user.Documento);
+                const data = await ObtenerAprendiz(user.Documento);
                 console.log('Datos del usuario:', data);
                 setUserData(data);
                 setPage(1); // Reiniciar la página al cargar nuevos datos

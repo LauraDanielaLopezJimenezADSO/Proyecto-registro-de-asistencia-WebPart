@@ -89,7 +89,7 @@ export default function AsisViewerScreen({ UserFirstName , UserDoc }) {
                         )}
                     </section>
                 </section>
-                <SecondaryButton texto="Volver" onClick={handleShowClasses} />
+                <SecondaryButton clase="SecondaryButton" texto="Volver" onClick={handleShowClasses} />
             </section>
         </main>
     );

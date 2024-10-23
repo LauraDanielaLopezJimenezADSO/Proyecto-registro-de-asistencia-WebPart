@@ -62,7 +62,7 @@ const formatearFecha = (fecha) => {
     return fecha ? dayjs(fecha).format('DD/MM/YYYY HH:mm') : 'Fecha no disponible';
 };
 
-export default function TableCustomBody({ rows, tipo, handleFileChange }) {
+export default function TableCustomBody({ rows, tipo, handleFileChange, handleShowDetails }) {
     // Función para determinar si el soporte ha sido subido
     const isSoporteSubido = (row) => {
         return row.Soporte && row.Soporte !== '';
@@ -232,6 +232,47 @@ export default function TableCustomBody({ rows, tipo, handleFileChange }) {
                         <td className="TableBodyRow__RowItem">{row.ProgramaFormacion || 'No disponible'}</td>
                     </tr>
             );
+
+            case 'traerDetallesAsistencias':
+                return (
+                    <tr key={index}>
+                        <td className="TableBodyRow__RowItem">
+                            {formatearFecha(row.FechaRegistro)}
+                        </td>
+                        <td className="TableBodyRow__RowItem">{row.ClaseFormacion || 'No especificado'}</td>
+                        <td className="TableBodyRow__RowItem">{row.NumeroFicha || 'No disponible'}</td>
+                        <td className="TableBodyRow__RowItem">{row.ProgramaFormacion || 'No disponible'}</td>
+                        <td className="TableBodyRow__RowItem">{row.TipoAsistencia || 'No disponible'}</td>
+                        <td className="TableBodyRow__RowItem">
+                            <PrimaryButton
+                                clase="PrimaryButton"
+                                onClick={() => handleShowDetails(row.IDRegistroAsistencia)}
+                                texto="Ver detalles"
+                            />
+                        </td>
+                    </tr>
+                );
+
+            case 'traerAsistenciasDetalles':
+                return (
+                    <tr key={index}>
+                        <td className="TableBodyRow__RowItem">
+                            {formatearFecha(row.FechaRegistro)}
+                        </td>
+                        <td className="TableBodyRow__RowItem">{row.ClaseFormacion || 'No especificado'}</td>
+                        <td className="TableBodyRow__RowItem">{row.Ficha || 'No disponible'}</td>
+                        <td className="TableBodyRow__RowItem">{row.ProgramaFormacion || 'No disponible'}</td>
+                        <td className="TableBodyRow__RowItem">{row.TipoAsistencia || 'No disponible'}</td>
+                        <td className="TableBodyRow__RowItem">
+                            <PrimaryButton
+                                clase="PrimaryButton"
+                                onClick={() => downloadArchivoBase64(row.ArchivoExcel, `asistencia_${row.FechaRegistro}.xlsx`)}
+                                texto="Descargar"
+                            />
+                        </td>
+                    </tr>
+                );
+
             default:
             // Renderizado por defecto si el tipo no coincide
                 return (

@@ -1,16 +1,33 @@
 import React, { useState, useEffect } from "react";
-import Title from "../../../Text/Title.jsx";
 import SubTitle from "../../../Text/SubTitle.jsx";
 import PrimaryTable from "../../../Table/PrimaryTable.jsx";
 import CardComponent from "../../../AprendizComponents/AprendizApp/AprendizAppComplements/CardComponent.jsx";
 import {
-    fetchAsistencias, fetchInasistencias
+    fetchAsistencias, fetchInasistencias, fetchAsistenciasConDetalles
 } from "../../../../context/API/API_Asis.js";
 import "../../../../styles/InstructorStyles/InstructorHomePageStyle.css";
 import Loading from "../../../LoadingCom.jsx";
-import { ThemeProvider } from "@mui/material";
+import {Box, ThemeProvider} from "@mui/material";
 import { theme } from "../../../../App.jsx";
 import SecondaryButton from "../../../buttons/secondaryButton.jsx";
+import { Modal } from '@mui/material';
+import PrimaryButton from "../../../buttons/primaryButton.jsx";
+import InasistenciasView from "./AprendizAsisViewer/ApAsisViewer.jsx";
+import {Pagination} from "@mui/lab";
+
+const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '80%',
+    height: '80%',
+    bgcolor: 'background.paper',
+    backgroundColor: '#fff',
+    boxShadow: 24,
+    p: 4,
+    padding: '2em',
+};
 
 export default function MainHomeScreen({ UserFirstName, UserDoc }) {
     const [rows, setRows] = useState([]);
@@ -18,23 +35,31 @@ export default function MainHomeScreen({ UserFirstName, UserDoc }) {
     const [resumenInasistencias, setResumenInasistencias] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [currentView, setCurrentView] = useState("home"); // Vista actual
+    const [currentView, setCurrentView] = useState("home");
+    const [showModal, setShowModal] = useState(false);
+    const [selectedAsistencia, setSelectedAsistencia] = useState(null);
 
-    // Llamadas para obtener las asistencias, inasistencias y resumen
+    const [filteredRows, setFilteredRows] = useState([]);
+    const [paginatedRows, setPaginatedRows] = useState([]);
+    const [page, setPage] = useState(1);
+    const rowsPerPage = 5;
+
     useEffect(() => {
         async function getData() {
             try {
                 const dataAsistencias = await fetchAsistencias(UserDoc);
-                setRows(dataAsistencias.slice(-5)); // Últimos 5 registros de asistencias
+                setRows(dataAsistencias.slice(-7));
 
-                // Asumiendo que tienes otro servicio o endpoint para obtener las inasistencias agrupadas por clase
                 const dataInasistencias = await fetchInasistencias(UserDoc);
-                setInasistencias(dataInasistencias.slice(0, 3)); // Mostrar solo las primeras 3 inasistencias
+                setInasistencias(dataInasistencias);
 
-
+                const dataResumenInasistencias = await fetchAsistenciasConDetalles(UserDoc);
+                setResumenInasistencias(dataResumenInasistencias);
+                setFilteredRows(dataResumenInasistencias);
 
                 setLoading(false);
             } catch (error) {
+                console.error('Error al obtener los datos:', error);
                 setError(error);
                 setLoading(false);
             }
@@ -42,8 +67,33 @@ export default function MainHomeScreen({ UserFirstName, UserDoc }) {
         getData();
     }, [UserFirstName, UserDoc]);
 
+    useEffect(() => {
+        const startIndex = (page - 1) * rowsPerPage;
+        const endIndex = startIndex + rowsPerPage;
+        setPaginatedRows(filteredRows.slice(startIndex, endIndex));
+    }, [filteredRows, page]);
+
     const handleShowAllInasistencias = () => {
         setCurrentView("inasistencias");
+    };
+
+    const handleShowDetails = (idRegistroAsistencia) => {
+        const asistencia = resumenInasistencias.find(a => a.IDRegistroAsistencia === idRegistroAsistencia);
+        setSelectedAsistencia(asistencia);
+        setShowModal(true);
+    };
+
+    const handlePageChange = (event, value) => {
+        setPage(value);
+    };
+
+    // Función auxiliar para descargar PDF
+    const downloadPDF = (base64, fileName = 'documento.pdf') => {
+        const linkSource = `data:application/pdf;base64,${base64}`;
+        const downloadLink = document.createElement('a');
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
     };
 
     if (loading) {
@@ -64,12 +114,7 @@ export default function MainHomeScreen({ UserFirstName, UserDoc }) {
 
     if (currentView === "inasistencias") {
         return (
-            <div>
-                {/* Mostrar todas las inasistencias en otra vista */}
-                <SubTitle texto="Todas las inasistencias" />
-                <PrimaryTable rows={inasistencias} tipo="traerInasistenciasPorInstructor" />
-                <SecondaryButton texto="Volver" onClick={() => setCurrentView("home")} />
-            </div>
+            <InasistenciasView inasistencias={inasistencias} setCurrentView={setCurrentView} />
         );
     }
 
@@ -94,11 +139,11 @@ export default function MainHomeScreen({ UserFirstName, UserDoc }) {
         <ThemeProvider theme={theme}>
             <main id="main">
                 <section className="main__gridContainer">
-                    {/* Primera Sección - Ocupa 2/5 del ancho */}
+                    {/* Primera Sección */}
                     <section className="main-content__FirstSection">
-                        <SubTitle text="Aprendices con mas Inasistencias" />
-                        {inasistencias.length > 0 ? (
-                            inasistencias.map(renderCard) // Mostrar solo las primeras 3 clases con más inasistencias
+                        <SubTitle text="Aprendices con más Inasistencias" />
+                        {inasistencias && inasistencias.length > 0 ? (
+                            inasistencias.slice(0, 2).map(renderCard)
                         ) : (
                             <p>No hay inasistencias registradas.</p>
                         )}
@@ -109,22 +154,83 @@ export default function MainHomeScreen({ UserFirstName, UserDoc }) {
                         />
                     </section>
 
-                    {/* Segunda Sección - Ocupa 3/5 del ancho */}
+                    {/* Segunda Sección */}
                     <section className="main-content__SecondSection">
                         <SubTitle text="Últimas 5 asistencias" />
-                        <PrimaryTable rows={rows} tipo="traerAsistencias" /> {/* Mostrar las últimas 5 asistencias */}
+                        <PrimaryTable rows={rows} tipo="traerAsistencias" />
                     </section>
 
-                    {/* Tercera Sección - Ocupa ambas columnas */}
+                    {/* Tercera Sección */}
                     <section className="main-content__ThirdSection">
-                        <SubTitle text="Resumen de inasistencias por clase" />
-                        {resumenInasistencias.length > 0 ? (
-                            <PrimaryTable rows={resumenInasistencias} tipo="verSoportes" /> // Resumen de inasistencias
+                        <SubTitle text="Resumen de las últimas 2 asistencias" />
+                        {resumenInasistencias && resumenInasistencias.length > 0 ? (
+                            <PrimaryTable
+                                rows={paginatedRows.slice(0, 2)}
+                                tipo="traerDetallesAsistencias"
+                                handleShowDetails={handleShowDetails}
+                            />
                         ) : (
-                            <p>No hay registros de inasistencias disponibles.</p>
+                            <p>No hay registros de asistencias disponibles.</p>
                         )}
                     </section>
                 </section>
+
+                {showModal && selectedAsistencia && (
+                    <Modal open={showModal} onClose={() => setShowModal(false)}>
+                        <Box sx={modalStyle} className="main__UploadMainContent">
+                            <h2 style={{color: "black"}}>Detalles de Aprendices</h2>
+
+                            <section className="UploadMainContent__TableContainer UploadMainContent__TableContainer--modalStyle">
+
+                                {/* Tabla con los datos filtrados */}
+                                <table className="primary-table">
+                                    <thead className="Table__TableHead">
+                                    <tr className="TableHeadRow__RowItem">
+                                        <th>Nombre Aprendiz</th>
+                                        <th>Documento</th>
+                                        <th>Horas de Inasistencia</th>
+                                        <th>Soporte</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {selectedAsistencia.AprendicesDetalles.map((aprendiz, index) => (
+                                        <tr className="TableBodyRow__RowItem" key={index}>
+                                            <td>{aprendiz.NombreAprendiz}</td>
+                                            <td>{aprendiz.DocumentoAprendiz}</td>
+                                            <td>{aprendiz.HorasInasistencia}</td>
+                                            <td>
+                                                {aprendiz.Soporte === 'No aplica' || aprendiz.Soporte === 'No adjunto' ? (
+                                                    aprendiz.Soporte
+                                                ) : (
+                                                    <div style={{margin: "0.5em"}}>
+                                                        <PrimaryButton
+                                                            clase="PrimaryButton"
+                                                            onClick={() => downloadPDF(aprendiz.Soporte, `soporte_${aprendiz.DocumentoAprendiz}.pdf`)}
+                                                            texto="Descargar Soporte"
+                                                        />
+                                                    </div>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                                ) : (
+                                <p>No hay detalles de aprendices disponibles.</p>
+                            </section>
+                            {/* Paginación dentro del modal */}
+                            <Pagination
+                                className="UploadMainContent__Pagination"
+                                count={Math.ceil(filteredRows.length / rowsPerPage)}
+                                page={page}
+                                onChange={handlePageChange}
+                                color="primary"
+                            />
+                            {/* Botón de cierre del modal */}
+                            <SecondaryButton clase="SecondaryButton" texto="Cerrar" onClick={() => setShowModal(false)} />
+                        </Box>
+                    </Modal>
+                )}
             </main>
         </ThemeProvider>
     );
